@@ -27,7 +27,7 @@ const RecipeSchema = new mongoose.Schema({
     required: true,
   },
   servings: {
-    type: Number,
+    type: { amount: Number, unit: String},
     required: true,
   },
   imageUrl: {
