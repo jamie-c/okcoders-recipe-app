@@ -7,13 +7,13 @@ export default function AddMenuItem() {
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    ingredients: "",
-    instructions: "",
-    prepTime: "",
-    cookTime: "",
-    servings: "",
+    ingredients: [],
+    instructions: [],
+    prepTime: 0,
+    cookTime: 0,
+    servings: {amount: 0, unit: ""},
     imageUrl: "",
-    tags: "",
+    tags: [],
     createdBy: "",
   });
 
