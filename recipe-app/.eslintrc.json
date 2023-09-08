@@ -1,3 +1,28 @@
 {
-    "extends": "next/babel, next/core-web-vitals"
+    "extends": [
+        "next/babel",
+        "next/core-web-vitals",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:react-hooks/recommended",
+        "prettier"
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "editor.formatOnSave": true,
+    "eslint.format.enable": true,
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "plugins": [
+        "react",
+        "react-hooks"
+    ],
+    "rules": {}
 }

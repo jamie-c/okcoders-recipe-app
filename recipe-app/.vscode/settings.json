@@ -1,0 +1,7 @@
+{
+    "editor.fontFamily": "'Fira Code', 'monospace', monospace",
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.organizeImports": true
+    }
+}
