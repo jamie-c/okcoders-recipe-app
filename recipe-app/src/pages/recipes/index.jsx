@@ -17,7 +17,7 @@ export default function AddMenuItem() {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        ingredients: [{ name: '', amount: '', unit: '' }],
+        ingredients: [{ id: '', name: '', amount: '', unit: '' }],
         instructions: [],
         prepTime: 0,
         cookTime: 0,
@@ -55,7 +55,6 @@ export default function AddMenuItem() {
             ...prevFormData,
             [name]: value,
         }))
-        setSearchTerm(value)
     }
 
     const handleIngredientChange = (event, index) => {
@@ -159,6 +158,7 @@ export default function AddMenuItem() {
             ingredients[index] = {
                 ...ingredients[index],
                 name: name,
+                id: ing._id,
             }
             return {
                 ...prevFormData,
