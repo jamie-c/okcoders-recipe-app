@@ -24,5 +24,10 @@
         "react",
         "react-hooks"
     ],
-    "rules": {}
+    "rules": {
+        "semi": [
+            "error",
+            "never"
+        ],
+    }
 }
