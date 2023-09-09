@@ -27,7 +27,7 @@ export default function AddMenuItem() {
         createdBy: '',
     })
     const [ingredients, setIngredients] = useState([])
-    const [searchTerm, setSearchTerm] = useState('')
+    const [filteredIngredients, setFilteredIngredients] = useState([[]])
     const [ingredientsListIsOpen, setOpen] = useState(false)
     const [options, setOptions] = useState([])
     const loading = ingredientsListIsOpen && options.length === 0
@@ -60,6 +60,10 @@ export default function AddMenuItem() {
 
     const handleIngredientChange = (event, index) => {
         const { name, value } = event.target
+        if (name === 'name') {
+            filterIngredients(value, index)
+        }
+
         setFormData((prevFormData) => {
             const ingredients = [...prevFormData.ingredients]
             ingredients[index] = {
@@ -95,7 +99,6 @@ export default function AddMenuItem() {
         setFormData((prevFormData) => {
             const ingredients = [...prevFormData.ingredients]
             ingredients.splice(index, 1)
-            console.log('ingredients', ingredients)
             return {
                 ...prevFormData,
                 ingredients,
@@ -119,7 +122,6 @@ export default function AddMenuItem() {
         const response = await fetch('/api/ingredients')
         const data = await response.json()
         setIngredients(data.ingredients)
-        console.log('ingredients', ingredients)
         return
     }
 
@@ -132,6 +134,43 @@ export default function AddMenuItem() {
             setOptions([])
         }
     }, [ingredientsListIsOpen])
+
+    const filterIngredients = (ing, index) => {
+        if (ing.length === 0) {
+            const prevIngredients = [...filteredIngredients]
+            prevIngredients[index] = []
+            setFilteredIngredients(prevIngredients)
+        } else {
+            // replace the list at index with the filtered list
+            const prevIngredients = [...filteredIngredients]
+            const filtered = ingredients.filter((ingredient) => {
+                return ingredient.name.toLowerCase().includes(ing.toLowerCase())
+            })
+            prevIngredients[index] = filtered
+
+            setFilteredIngredients(prevIngredients)
+        }
+    }
+
+    const handleSelectIngredient = (ing, index) => {
+        const name = ing.name
+        setFormData((prevFormData) => {
+            const ingredients = [...prevFormData.ingredients]
+            ingredients[index] = {
+                ...ingredients[index],
+                name: name,
+            }
+            return {
+                ...prevFormData,
+                ingredients,
+            }
+        })
+        setFilteredIngredients((prevFilteredIngredients) => {
+            const filtered = [...prevFilteredIngredients]
+            filtered[index] = []
+            return filtered
+        })
+    }
 
     const maxButtonWidth = '250px'
 
@@ -178,88 +217,143 @@ export default function AddMenuItem() {
                     />
                     <Typography variant="h6">Ingredients</Typography>
                     {formData.ingredients.map((ingredient, index) => (
-                        <Stack
-                            sx={{
-                                position: 'relative',
-                                flexDirection: { xs: 'col', sm: 'row' },
-                                border: '1px solid #010b8b',
-                                borderRadius: '6px',
-                                padding: '10px',
-                                paddingRight: '48px',
-                            }}
-                            alignItems={{ xs: 'flex-start', sm: 'center' }}
-                            flex
-                            gap="8px"
-                            key={index}
-                        >
-                            <TextField
-                                sx={{ minWidth: { xs: '100%', sm: '300px' } }}
-                                variant="standard"
-                                type="text"
-                                label="Ingredient Name"
-                                name="name"
-                                value={ingredient.name}
-                                onChange={(event) =>
-                                    handleIngredientChange(event, index)
-                                }
-                                required
-                            />
-                            <TextField
-                                sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
-                                variant="standard"
-                                type="number"
-                                label="Amount"
-                                name="amount"
-                                value={ingredient.amount}
-                                onChange={(event) =>
-                                    handleIngredientChange(event, index)
-                                }
-                                required
-                            />
-                            <TextField
-                                sx={{ maxWidth: { xs: '100%', sm: '100px' } }}
-                                variant="standard"
-                                label="Unit"
-                                name="unit"
-                                value={ingredient.unit}
-                                onChange={(event) =>
-                                    handleIngredientChange(event, index)
-                                }
-                                required
-                                onKeyDown={(event) => {
-                                    if (
-                                        event.key === 'Enter' ||
-                                        event.key === 'Tab'
-                                    ) {
-                                        handleAddIngredient(event, index)
-                                    }
-                                }}
-                            />
-                            <Button
+                        <Stack key={index}>
+                            <Stack
                                 sx={{
-                                    position: 'absolute',
-                                    right: '0',
-                                    top: '0',
-                                    minWidth: '36px',
-                                    width: '36px',
-                                    maxWidth: '36px',
-                                    height: '100%',
-                                    borderRadius: '0 6px 6px 0',
-                                    opacity: '0.5',
-                                    '&:hover': {
-                                        opacity: '1',
-                                        bgcolor: {},
-                                    },
+                                    position: 'relative',
+                                    flexDirection: { xs: 'col', sm: 'row' },
+                                    borderRadius: '6px',
+                                    height: { sm: '48px' },
+                                    padding: '10px',
+                                    paddingRight: '48px',
+                                    bgcolor: 'rgba(0,0,0,0.1)',
                                 }}
-                                id={'remove-button-' + index}
-                                variant="contained"
-                                color="info"
-                                onClick={() =>
-                                    handleRemoveIngredient(ingredient)
-                                }
+                                alignItems={{ xs: 'flex-start', sm: 'center' }}
+                                flex
+                                gap="8px"
+                                key={`${index}-input`}
                             >
-                                <ClearSharpIcon />
-                            </Button>
+                                <TextField
+                                    sx={{
+                                        minWidth: { xs: '100%', sm: '300px' },
+                                    }}
+                                    variant="standard"
+                                    type="text"
+                                    label="Ingredient Name"
+                                    name="name"
+                                    value={ingredient.name}
+                                    onChange={(event) =>
+                                        handleIngredientChange(event, index)
+                                    }
+                                    required
+                                />
+                                <Stack
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        gap: '8px',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                    }}
+                                >
+                                    <TextField
+                                        sx={{
+                                            maxWidth: {
+                                                xs: '48%',
+                                                sm: '100px',
+                                            },
+                                        }}
+                                        variant="standard"
+                                        type="number"
+                                        label="Amount"
+                                        name="amount"
+                                        value={ingredient.amount}
+                                        onChange={(event) =>
+                                            handleIngredientChange(event, index)
+                                        }
+                                        required
+                                    />
+                                    <TextField
+                                        sx={{
+                                            maxWidth: {
+                                                xs: '48%',
+                                                sm: '100px',
+                                            },
+                                        }}
+                                        variant="standard"
+                                        label="Unit"
+                                        name="unit"
+                                        value={ingredient.unit}
+                                        onChange={(event) =>
+                                            handleIngredientChange(event, index)
+                                        }
+                                        required
+                                        onKeyDown={(event) => {
+                                            if (
+                                                event.key === 'Enter' ||
+                                                event.key === 'Tab'
+                                            ) {
+                                                handleAddIngredient(
+                                                    event,
+                                                    index
+                                                )
+                                            }
+                                        }}
+                                    />
+                                </Stack>
+                                <Button
+                                    sx={{
+                                        position: 'absolute',
+                                        right: '0',
+                                        top: '0',
+                                        minWidth: '36px',
+                                        width: '36px',
+                                        maxWidth: '36px',
+                                        height: '100%',
+                                        borderRadius: '0 6px 6px 0',
+                                        opacity: '0.5',
+                                        '&:hover': {
+                                            opacity: '1',
+                                            bgcolor: {},
+                                        },
+                                    }}
+                                    id={'remove-button-' + index}
+                                    variant="contained"
+                                    color="info"
+                                    onClick={() =>
+                                        handleRemoveIngredient(ingredient)
+                                    }
+                                >
+                                    <ClearSharpIcon />
+                                </Button>
+                            </Stack>
+                            <Stack
+                                alignItems="flex-start"
+                                key={`${index}-list`}
+                            >
+                                {filteredIngredients[index] &&
+                                    filteredIngredients[index].map(
+                                        (ingredient) => {
+                                            return (
+                                                <Button
+                                                    key={
+                                                        index +
+                                                        '-' +
+                                                        ingredient._id
+                                                    }
+                                                    onClick={() =>
+                                                        handleSelectIngredient(
+                                                            ingredient,
+                                                            index
+                                                        )
+                                                    }
+                                                >
+                                                    {ingredient.name}
+                                                </Button>
+                                            )
+                                        }
+                                    )}
+                            </Stack>
                         </Stack>
                     ))}
                     <Button
