@@ -19,8 +19,8 @@ export default function AddMenuItem() {
         description: '',
         ingredients: [{ id: '', name: '', amount: '', unit: '' }],
         instructions: [],
-        prepTime: 0,
-        cookTime: 0,
+        prepTime: { hours: 0, minutes: 0 },
+        cookTime: { hours: 0, minutes: 0 },
         servings: { amount: 0, unit: '' },
         imageUrl: '',
         tags: [],
@@ -30,7 +30,6 @@ export default function AddMenuItem() {
     const [filteredIngredients, setFilteredIngredients] = useState([[]])
     const [ingredientsListIsOpen, setOpen] = useState(false)
     const [options, setOptions] = useState([])
-    const loading = ingredientsListIsOpen && options.length === 0
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -103,6 +102,7 @@ export default function AddMenuItem() {
                 ingredients,
             }
         })
+        console.log(formData)
     }
 
     const searchIngredients = async (searchTerm) => {
@@ -172,6 +172,67 @@ export default function AddMenuItem() {
         })
     }
 
+    const handleRecipeTime = (event) => {
+        let { name, value } = event.target
+        let key = ''
+
+        if (value < 0) {
+            value = 0
+        }
+
+        if (name === 'prepTimeHours') {
+            key = 'prepTime'
+            name = 'hours'
+        } else if (name === 'prepTimeMinutes') {
+            key = 'prepTime'
+            name = 'minutes'
+        } else if (name === 'cookTimeHours') {
+            key = 'cookTime'
+            name = 'hours'
+        } else if (name === 'cookTimeMinutes') {
+            key = 'cookTime'
+            name = 'minutes'
+        }
+
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [key]: {
+                ...prevFormData[key],
+                [name]: Number(value),
+            },
+        }))
+    }
+
+    const handleServings = (event) => {
+        const { name, value } = event.target
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            servings: {
+                ...prevFormData.servings,
+                [name]: value,
+            },
+        }))
+    }
+
+    const handleTags = (event) => {
+        console.log(formData.tags)
+        const { name, value } = event.target
+        const tags = value.split(',').map((tag) => tag.trim())
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: tags,
+        }))
+    }
+
+    const handleInstructions = (event) => {
+        const { name, value } = event.target
+        const instructions = value.split('\n\n')
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: instructions,
+        }))
+    }
+
     const maxButtonWidth = '250px'
 
     return (
@@ -181,7 +242,7 @@ export default function AddMenuItem() {
                 className={`${inter.className}`}
                 style={{ margin: '10px', textAlign: 'center' }}
             >
-                Add Menu Item
+                Add Recipe
             </h1>
             <form
                 className={`${inter.className}`}
@@ -373,42 +434,61 @@ export default function AddMenuItem() {
                     <TextField
                         label="Instructions"
                         name="instructions"
-                        value={formData.instructions}
-                        onChange={handleChange}
+                        value={formData.instructions.join('\n\n')}
+                        onChange={handleInstructions}
+                        multiline
                         required
                     />
                     <Typography variant="h6">Prep & Cook Time</Typography>
-                    {/* [ ] TODO: form accepts hours and minutes and stores value in minutes in db */}
+                    {/* [x] TODO: form accepts hours and minutes and stores value in minutes in db */}
                     <Stack flex flexDirection="row" gap="8px">
                         <TextField
-                            label="Prep Time"
-                            name="prepTime"
-                            value={formData.prepTime}
-                            onChange={handleChange}
+                            label="Prep Time Hours"
+                            name="prepTimeHours"
+                            value={formData.prepTime.hours}
+                            onChange={handleRecipeTime}
                             required
+                            type="number"
                         />
                         <TextField
-                            label="Cook Time"
-                            name="cookTime"
-                            value={formData.cookTime}
-                            onChange={handleChange}
+                            label="Prep Time Minutes"
+                            name="prepTimeMinutes"
+                            value={formData.prepTime.minutes}
+                            onChange={handleRecipeTime}
                             required
+                            type="number"
+                        />
+                        <TextField
+                            label="Cook Time Hours"
+                            name="cookTimeHours"
+                            value={formData.cookTime.hours}
+                            onChange={handleRecipeTime}
+                            required
+                            type="number"
+                        />
+                        <TextField
+                            label="Cook Time Minutes"
+                            name="cookTimeMinutes"
+                            value={formData.cookTime.minutes}
+                            onChange={handleRecipeTime}
+                            required
+                            type="number"
                         />
                     </Stack>
                     <Typography variant="h6">Serving Info</Typography>
                     <Stack flex flexDirection="row" gap="8px">
                         <TextField
                             label="Servings Amount"
-                            name="servingsAmount"
+                            name="amount"
                             value={formData.servings.amount}
-                            onChange={handleChange}
+                            onChange={handleServings}
                             required
                         />
                         <TextField
                             label="Servings Unit"
-                            name="servingsUnit"
+                            name="unit"
                             value={formData.servings.unit}
-                            onChange={handleChange}
+                            onChange={handleServings}
                             required
                         />
                     </Stack>
@@ -422,8 +502,8 @@ export default function AddMenuItem() {
                     <TextField
                         label="Tags"
                         name="tags"
-                        value={formData.tags}
-                        onChange={handleChange}
+                        value={formData.tags.join(', ')}
+                        onChange={handleTags}
                         required
                     />
                     <TextField
