@@ -1,12 +1,26 @@
 import MenuBookIcon from '@mui/icons-material/MenuBook'
-import { IconButton, TextField } from '@mui/material'
+import { IconButton, TextField, Typography } from '@mui/material'
 
 function Header() {
     return (
         <div style={styles.container}>
             <div style={styles.headerContent}>
-                <h1 style={styles.title}>Cookbook</h1>
+                <Typography
+                    sx={{
+                        fontSize: {
+                            xs: '2.5rem',
+                            sm: '3.25rem',
+                        },
+                    }}
+                    color="primary"
+                    textTransform="uppercase"
+                    fontWeight="bold"
+                    letterSpacing="5px"
+                >
+                    Cookbook
+                </Typography>
                 <TextField
+                    color="primary"
                     fullWidth
                     id="outlined-search"
                     label="Search field"
@@ -14,11 +28,9 @@ function Header() {
                     style={styles.searchField}
                 />
                 <IconButton
-                    disableRippleFocus
-                    disableRipple
                     size="large"
                     edge="start"
-                    color="inherit"
+                    color="primary"
                     aria-label="menu"
                     style={styles.menuButton}
                 >
@@ -37,6 +49,7 @@ const styles = {
     headerContent: {
         display: 'flex',
         alignItems: 'center',
+        padding: '0 10px',
     },
     title: {
         fontFamily: 'Dosis',
@@ -54,7 +67,6 @@ const styles = {
     },
     menuIcon: {
         fontSize: '2.75rem',
-        marginRight: '50px',
         // Add any additional styling as needed
     },
 }
