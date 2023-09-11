@@ -1,4 +1,6 @@
 import FullWidthHeaderImage from '@/components/FullWidthHeaderImage'
+import RecipeDescription from '@/components/RecipeDescription'
+import RecipeTags from '@/components/RecipeTags'
 import RecipeTitle from '@/components/RecipeTitle'
 import { inter } from '@/lib/theme'
 import { Stack, Typography } from '@mui/material'
@@ -101,7 +103,10 @@ export default function Recipe() {
                     </FullWidthHeaderImage>
                     <Stack sx={{ px: { xs: 4, sm: 8, md: 20 } }}>
                         <RecipeTitle>{recipe.name}</RecipeTitle>
-                        <p>{recipe.description}</p>
+                        <RecipeDescription>
+                            {recipe.description}
+                        </RecipeDescription>
+                        <RecipeTags tags={recipe.tags} />
                         <h2>Info</h2>
                         <p>Prep Time: {prepTimeDisplay}</p>
                         <p>Cook Time: {cookTimeDisplay}</p>
