@@ -1,6 +1,7 @@
+import FullWidthHeaderImage from '@/components/FullWidthHeaderImage'
+import RecipeTitle from '@/components/RecipeTitle'
 import { inter } from '@/lib/theme'
-import { Typography } from '@mui/material'
-import Image from 'next/image'
+import { Stack, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -79,38 +80,52 @@ export default function Recipe() {
             )}
             {recipe?._id && (
                 <>
-                    <Image
-                        style={{ objectFit: 'cover', borderRadius: 6 }}
-                        src={recipe.imageUrl}
-                        alt={recipe.name}
-                        width={400}
-                        height={300}
-                    />
-                    <h1>{recipe.name}</h1>
-                    <p>{recipe.description}</p>
-                    <h2>Info</h2>
-                    <p>Prep Time: {prepTimeDisplay}</p>
-                    <p>Cook Time: {cookTimeDisplay}</p>
-                    <p>Total Time: {totalTimeDisplay}</p>
-                    <p>
-                        Servings: {recipe.servings.amount}{' '}
-                        {recipe.servings.unit}
-                    </p>
-                    <h2>Ingredients</h2>
-                    {recipe.ingredients.map((ingredient) => (
-                        <div key={ingredient._id}>
-                            <p>
-                                {ingredient.amount} {ingredient.unit}{' '}
-                                {ingredient.name}
-                            </p>
-                        </div>
-                    ))}
-                    <h2>Instructions</h2>
-                    {recipe.instructions.map((instruction) => (
-                        <div key={`${recipe._id}-instructions`}>
-                            <p>{instruction}</p>
-                        </div>
-                    ))}
+                    <FullWidthHeaderImage recipe={recipe}>
+                        <Typography
+                            variant="h1"
+                            color="white"
+                            sx={{
+                                textTransform: 'uppercase',
+                                fontWeight: 'bold',
+                                fontSize: {
+                                    xs: '2rem',
+                                    sm: '3rem',
+                                    md: '4rem',
+                                    lg: '5rem',
+                                    xl: '6rem',
+                                },
+                            }}
+                        >
+                            {recipe.name}
+                        </Typography>
+                    </FullWidthHeaderImage>
+                    <Stack sx={{ px: { xs: 4, sm: 8, md: 20 } }}>
+                        <RecipeTitle>{recipe.name}</RecipeTitle>
+                        <p>{recipe.description}</p>
+                        <h2>Info</h2>
+                        <p>Prep Time: {prepTimeDisplay}</p>
+                        <p>Cook Time: {cookTimeDisplay}</p>
+                        <p>Total Time: {totalTimeDisplay}</p>
+                        <p>
+                            Servings: {recipe.servings.amount}{' '}
+                            {recipe.servings.unit}
+                        </p>
+                        <h2>Ingredients</h2>
+                        {recipe.ingredients.map((ingredient) => (
+                            <div key={ingredient._id}>
+                                <p>
+                                    {ingredient.amount} {ingredient.unit}{' '}
+                                    {ingredient.name}
+                                </p>
+                            </div>
+                        ))}
+                        <h2>Instructions</h2>
+                        {recipe.instructions.map((instruction) => (
+                            <div key={`${recipe._id}-instructions`}>
+                                <p>{instruction}</p>
+                            </div>
+                        ))}
+                    </Stack>
                 </>
             )}
         </div>
