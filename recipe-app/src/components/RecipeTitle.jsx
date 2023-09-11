@@ -5,7 +5,7 @@ const RecipeTitle = ({ children }) => (
         style={{
             position: 'relative',
             width: '100%',
-            margin: '30px 0',
+            margin: '30px 0 0 0',
         }}
     >
         <Typography
