@@ -42,22 +42,28 @@ function Header() {
 }
 
 const styles = {
-    // container: {
-    //   border: '1px solid lightgray',
-    //   borderRadius: '10px',
-    // },
+    container: {
+        position: 'sticky',
+        top: '0',
+        width: '100vw',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        backdropFilter: 'blur(10px)',
+        zIndex: '900',
+    },
     headerContent: {
         display: 'flex',
         alignItems: 'center',
         padding: '0 10px',
+        opacity: '1',
+        zIndex: '999',
     },
-    title: {
-        fontFamily: 'Dosis',
-        textTransform: 'uppercase',
-        fontSize: '3.25rem',
-        marginLeft: '40px',
-        letterSpacing: '5px',
-    },
+    // title: {
+    //     fontFamily: 'Dosis',
+    //     textTransform: 'uppercase',
+    //     fontSize: '3.25rem',
+    //     marginLeft: '40px',
+    //     letterSpacing: '5px',
+    // },
     searchField: {
         marginLeft: '50px',
         marginRight: '50px',
