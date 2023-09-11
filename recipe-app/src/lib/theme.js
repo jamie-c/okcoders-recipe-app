@@ -1,6 +1,7 @@
 import { createTheme } from '@mui/material/styles'
-import { Inter } from 'next/font/google'
+import { Dosis, Inter } from 'next/font/google'
 
+export const dosis = Dosis({ subsets: ['latin'] })
 export const inter = Inter({ subsets: ['latin'] })
 
 export const theme = createTheme({
