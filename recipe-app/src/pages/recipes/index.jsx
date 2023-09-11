@@ -1,14 +1,6 @@
-import { inter, theme } from '@/lib/theme'
 import AddSharpIcon from '@mui/icons-material/AddSharp'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
-import {
-    Button,
-    CssBaseline,
-    Stack,
-    TextField,
-    Typography,
-} from '@mui/material'
-import { ThemeProvider } from '@mui/material/styles'
+import { Button, Stack, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -236,16 +228,9 @@ export default function AddMenuItem() {
     const maxButtonWidth = '250px'
 
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <h1
-                className={`${inter.className}`}
-                style={{ margin: '10px', textAlign: 'center' }}
-            >
-                Add Recipe
-            </h1>
+        <>
+            <h1 style={{ margin: '10px', textAlign: 'center' }}>Add Recipe</h1>
             <form
-                className={`${inter.className}`}
                 onSubmit={handleSubmit}
                 style={{
                     width: '100vw',
@@ -526,6 +511,6 @@ export default function AddMenuItem() {
                     </Button>
                 </Stack>
             </form>
-        </ThemeProvider>
+        </>
     )
 }
