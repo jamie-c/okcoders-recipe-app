@@ -15,18 +15,7 @@ import { useEffect, useState } from 'react'
 export default function AddMenuItem() {
     const router = useRouter()
     const { id } = router.query
-    const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        ingredients: [{ id: '', name: '', amount: '', unit: '' }],
-        instructions: [],
-        prepTime: { hours: null, minutes: null },
-        cookTime: { hours: null, minutes: null },
-        servings: { amount: null, unit: '' },
-        imageUrl: '',
-        tags: [],
-        createdBy: '',
-    })
+    const [formData, setFormData] = useState({})
     const [ingredients, setIngredients] = useState([])
     const [filteredIngredients, setFilteredIngredients] = useState([[]])
     const [originalFormData, setOriginalFormData] = useState({})
