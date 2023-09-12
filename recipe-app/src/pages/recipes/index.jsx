@@ -23,6 +23,36 @@ export default function AddMenuItem() {
     const [ingredientsListIsOpen, setOpen] = useState(false)
     const [options, setOptions] = useState([])
 
+    const [steps, setSteps] = useState(['']); // Initialize with one empty step
+
+  // Function to add a new step
+  const addStep = () => {
+    setSteps([...steps, '']);
+  };
+
+  // Function to remove a step
+  const removeStep = (index) => {
+    const newSteps = [...steps];
+    newSteps.splice(index, 1);
+    setSteps(newSteps);
+    setFormData((prevFormData) => ({
+        ...prevFormData,
+        instructions: newSteps,
+    }))
+  };
+
+  // Function to update a step's text
+  const updateStep = (index, text) => {
+    const newSteps = [...steps];
+    newSteps[index] = text;
+    setSteps(newSteps);
+    setFormData((prevFormData) => ({
+        ...prevFormData,
+        instructions: newSteps,
+    }))
+    console.log('formData: updateStep', formData)
+  };
+
     const handleSubmit = (event) => {
         event.preventDefault()
         fetch('/api/recipes', {
@@ -415,7 +445,30 @@ export default function AddMenuItem() {
                     >
                         Add Ingredient
                     </Button>
-                    <Typography variant="h6">Instructions</Typography>
+                    <div>
+      <h2>Instructions</h2>
+      {steps.map((step, index) => (
+        <div key={index}>
+          <TextField
+            label={`Step ${index + 1}`}
+            multiline
+            rows={4}
+            variant="outlined"
+            fullWidth
+            value={step}
+            sx={{ background: 'white' }}
+            onChange={(e) => updateStep(index, e.target.value)}
+          />
+          <Button variant="outlined" color="error" onClick={() => removeStep(index)}>
+            Remove Step
+          </Button>
+        </div>
+      ))}
+      <Button variant="outlined" color="primary" onClick={addStep}>
+        Add Step
+      </Button>
+    </div>
+                    {/* <Typography variant="h6">Instructions</Typography>
                     <TextField
                         label="Instructions"
                         name="instructions"
@@ -423,7 +476,7 @@ export default function AddMenuItem() {
                         onChange={handleInstructions}
                         multiline
                         required
-                    />
+                    /> */}
                     <Typography variant="h6">Prep & Cook Time</Typography>
                     {/* [x] TODO: form accepts hours and minutes and stores value in minutes in db */}
                     <Stack flex flexDirection="row" gap="8px">
