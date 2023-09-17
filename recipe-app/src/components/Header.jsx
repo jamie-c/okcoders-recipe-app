@@ -1,5 +1,6 @@
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { IconButton, TextField, Typography } from '@mui/material'
+import UserIcon from './UserIcon'
 
 function Header() {
     return (
@@ -35,6 +36,16 @@ function Header() {
                     style={styles.menuButton}
                 >
                     <MenuBookIcon style={styles.menuIcon} />
+                </IconButton>
+
+                <IconButton
+                    size="large"
+                    edge="start"
+                    color="primary"
+                    aria-label="menu"
+                    style={styles.menuButton}
+                >
+                    <UserIcon style={styles.menuIcon} />
                 </IconButton>
             </div>
         </div>
@@ -72,6 +83,10 @@ const styles = {
         // Add any additional styling as needed
     },
     menuIcon: {
+        fontSize: '2.75rem',
+        // Add any additional styling as needed
+    },
+    userIcon: {
         fontSize: '2.75rem',
         // Add any additional styling as needed
     },

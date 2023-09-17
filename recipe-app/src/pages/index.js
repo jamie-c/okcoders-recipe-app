@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 export default function Home() {
     const [recipes, setRecipes] = useState([])
