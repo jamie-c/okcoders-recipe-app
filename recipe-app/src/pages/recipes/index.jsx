@@ -22,36 +22,37 @@ export default function AddMenuItem() {
     const [filteredIngredients, setFilteredIngredients] = useState([[]])
     const [ingredientsListIsOpen, setOpen] = useState(false)
     const [options, setOptions] = useState([])
+    const [loading, setLoading] = useState(false)
 
-    const [steps, setSteps] = useState(['']); // Initialize with one empty step
+    const [steps, setSteps] = useState(['']) // Initialize with one empty step
 
-  // Function to add a new step
-  const addStep = () => {
-    setSteps([...steps, '']);
-  };
+    // Function to add a new step
+    const addStep = () => {
+        setSteps([...steps, ''])
+    }
 
-  // Function to remove a step
-  const removeStep = (index) => {
-    const newSteps = [...steps];
-    newSteps.splice(index, 1);
-    setSteps(newSteps);
-    setFormData((prevFormData) => ({
-        ...prevFormData,
-        instructions: newSteps,
-    }))
-  };
+    // Function to remove a step
+    const removeStep = (index) => {
+        const newSteps = [...steps]
+        newSteps.splice(index, 1)
+        setSteps(newSteps)
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            instructions: newSteps,
+        }))
+    }
 
-  // Function to update a step's text
-  const updateStep = (index, text) => {
-    const newSteps = [...steps];
-    newSteps[index] = text;
-    setSteps(newSteps);
-    setFormData((prevFormData) => ({
-        ...prevFormData,
-        instructions: newSteps,
-    }))
-    console.log('formData: updateStep', formData)
-  };
+    // Function to update a step's text
+    const updateStep = (index, text) => {
+        const newSteps = [...steps]
+        newSteps[index] = text
+        setSteps(newSteps)
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            instructions: newSteps,
+        }))
+        console.log('formData: updateStep', formData)
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -78,6 +79,7 @@ export default function AddMenuItem() {
         }))
     }
 
+    // HANDLE TYPING INTO INGREDIENT INPUT
     const handleIngredientChange = (event, index) => {
         const { name, value } = event.target
         if (name === 'name') {
@@ -97,6 +99,7 @@ export default function AddMenuItem() {
         })
     }
 
+    // HANDLE ADDING AND REMOVING INGREDIENTS INPUT BOXES
     const handleAddIngredient = (event, index) => {
         // prevent form submission
         event.preventDefault()
@@ -114,6 +117,7 @@ export default function AddMenuItem() {
         }))
     }
 
+    // HANDLE CLICKING THE REMOVE INGREDIENT BUTTON
     const handleRemoveIngredient = (ingredient) => {
         const index = formData.ingredients.indexOf(ingredient)
         setFormData((prevFormData) => {
@@ -127,7 +131,9 @@ export default function AddMenuItem() {
         console.log(formData)
     }
 
-    const searchIngredients = async (searchTerm) => {
+    // GET INGREDIENTS FROM DB
+    const getIngredients = async (searchTerm) => {
+        setLoading(true)
         const response = await fetch('/api/ingredients', {
             method: 'GET',
             headers: {
@@ -136,18 +142,47 @@ export default function AddMenuItem() {
         })
         const data = await response.json()
         setIngredients(data.ingredients)
-        return data
-    }
-
-    const getIngredients = async () => {
-        const response = await fetch('/api/ingredients')
-        const data = await response.json()
-        setIngredients(data.ingredients)
+        setLoading(false)
         return
     }
 
+    // SEARCH FDC API FOR INGREDIENTS
+    const searchIngredients = async (ing, index) => {
+        setLoading(true)
+        try {
+            const response = await fetch(
+                'http://localhost:3000/api/ingredients/fdc-search',
+                {
+                    method: 'GET',
+                    headers: {
+                        name: ing,
+                    },
+                }
+            )
+            const data = await response.json()
+            const fdcIngredients = data.ingredients.foods.map((food) => {
+                return {
+                    name: food.description,
+                    fdcId: food.fdcId.toString(),
+                    _id: '',
+                }
+            })
+            if (fdcIngredients.length === 0) {
+                return res.status(404).json({ message: 'No ingredients found' })
+            }
+            const prevFilteredIngredients = [...filteredIngredients]
+            prevFilteredIngredients[index] = fdcIngredients
+            setFilteredIngredients(prevFilteredIngredients)
+        } catch (error) {
+            console.error(error)
+        }
+        setLoading(false)
+        return
+    }
+
+    // GET INGREDIENTS FROM DB ON PAGE LOAD
     useEffect(() => {
-        getIngredients()
+        getIngredients('')
     }, [])
 
     useEffect(() => {
@@ -156,6 +191,7 @@ export default function AddMenuItem() {
         }
     }, [ingredientsListIsOpen])
 
+    // FILTER INGREDIENTS BASED ON USER INPUT
     const filterIngredients = (ing, index) => {
         if (ing.length === 0) {
             const prevIngredients = [...filteredIngredients]
@@ -167,14 +203,42 @@ export default function AddMenuItem() {
             const filtered = ingredients.filter((ingredient) => {
                 return ingredient.name.toLowerCase().includes(ing.toLowerCase())
             })
-            prevIngredients[index] = filtered
+
+            if (filtered.length === 0) {
+                searchIngredients(ing, index)
+            } else prevIngredients[index] = filtered
 
             setFilteredIngredients(prevIngredients)
         }
     }
 
+    // HANDLE SELECTING AN INGREDIENT FROM THE LIST
     const handleSelectIngredient = (ing, index) => {
         const name = ing.name
+        if (ing._id === '') {
+            // if the ingredient is not in the database, add it
+            const newIng = fetch('/api/ingredients', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, fdcId: ing.fdcId }),
+            })
+            const newIngId = newIng._id
+            setFormData((prevFormData) => {
+                const ingredients = [...prevFormData.ingredients]
+                ingredients[index] = {
+                    ...ingredients[index],
+                    name: name,
+                    id: newIngId,
+                }
+                return {
+                    ...prevFormData,
+                    ingredients,
+                }
+            })
+        }
+
         setFormData((prevFormData) => {
             const ingredients = [...prevFormData.ingredients]
             ingredients[index] = {
@@ -407,6 +471,9 @@ export default function AddMenuItem() {
                                 alignItems="flex-start"
                                 key={`${index}-list`}
                             >
+                                {!filteredIngredients[index] && loading && (
+                                    <p>Loading...</p>
+                                )}
                                 {filteredIngredients[index] &&
                                     filteredIngredients[index].map(
                                         (ingredient) => {
@@ -446,28 +513,38 @@ export default function AddMenuItem() {
                         Add Ingredient
                     </Button>
                     <div>
-      <h2>Instructions</h2>
-      {steps.map((step, index) => (
-        <div key={index}>
-          <TextField
-            label={`Step ${index + 1}`}
-            multiline
-            rows={4}
-            variant="outlined"
-            fullWidth
-            value={step}
-            sx={{ background: 'white' }}
-            onChange={(e) => updateStep(index, e.target.value)}
-          />
-          <Button variant="outlined" color="error" onClick={() => removeStep(index)}>
-            Remove Step
-          </Button>
-        </div>
-      ))}
-      <Button variant="outlined" color="primary" onClick={addStep}>
-        Add Step
-      </Button>
-    </div>
+                        <h2>Instructions</h2>
+                        {steps.map((step, index) => (
+                            <div key={index}>
+                                <TextField
+                                    label={`Step ${index + 1}`}
+                                    multiline
+                                    rows={4}
+                                    variant="outlined"
+                                    fullWidth
+                                    value={step}
+                                    sx={{ background: 'white' }}
+                                    onChange={(e) =>
+                                        updateStep(index, e.target.value)
+                                    }
+                                />
+                                <Button
+                                    variant="outlined"
+                                    color="error"
+                                    onClick={() => removeStep(index)}
+                                >
+                                    Remove Step
+                                </Button>
+                            </div>
+                        ))}
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            onClick={addStep}
+                        >
+                            Add Step
+                        </Button>
+                    </div>
                     {/* <Typography variant="h6">Instructions</Typography>
                     <TextField
                         label="Instructions"
