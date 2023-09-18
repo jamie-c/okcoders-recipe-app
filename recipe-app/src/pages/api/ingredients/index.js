@@ -13,13 +13,13 @@ export default async function handler(req, res) {
             ingredients = await Ingredient.find(
                 // return items that have a name that contains the name query
                 { name: { $regex: name, $options: 'i' } },
-                { name: true },
+                { name: true, fdcId: true },
                 { limit: 10, sort: { name: 'asc' } }
             )
         } else {
             ingredients = await Ingredient.find(
                 {},
-                { name: true },
+                { name: true, fdcId: true },
                 { limit: 10, sort: { name: 'asc' } }
             )
         }
