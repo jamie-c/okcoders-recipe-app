@@ -84,7 +84,7 @@ export default function Recipe() {
                             <Skeleton variant="text" width="100%" />
                         </Typography>
                     </FullWidthHeaderImageLoading>
-                    <Stack sx={{ px: { xs: 4, sm: 8, md: 20 } }}>
+                    <Stack sx={{ px: { xs: 2, sm: 8, md: 20 } }}>
                         <Typography variant="h1">
                             <Skeleton variant="text" width="75%" />
                         </Typography>
@@ -120,7 +120,7 @@ export default function Recipe() {
                             {recipe.name}
                         </Typography>
                     </FullWidthHeaderImage>
-                    <Stack sx={{ px: { xs: 4, sm: 8, md: 20 } }}>
+                    <Stack sx={{ px: { xs: 2, sm: 8, md: 20 } }}>
                         <RecipeTitle>{recipe.name}</RecipeTitle>
                         <RecipeDescription>
                             {recipe.description}
