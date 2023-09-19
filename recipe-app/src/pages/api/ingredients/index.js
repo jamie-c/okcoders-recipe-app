@@ -24,12 +24,25 @@ export default async function handler(req, res) {
             )
         }
 
-        res.status(200).json({ ingredients })
+        return res.status(200).json({ ingredients })
     } else if (req.method === 'POST') {
+        const { name, fdcId } = req.body
+
+        const existingIngredient = await Ingredient.findOne({ fdcId })
+
+        if (existingIngredient) {
+            const { _id, name, fdcId } = existingIngredient
+            return res.status(409).json({
+                message: 'Ingredient already exists',
+                _id,
+                name,
+                fdcId,
+            })
+        }
         const newIngredient = new Ingredient(req.body)
         await newIngredient.save()
-        res.status(201).json(newIngredient)
+        return res.status(201).json(newIngredient)
     } else {
-        res.status(405).json({ message: 'Method not allowed' })
+        return res.status(405).json({ message: 'Method not allowed' })
     }
 }
