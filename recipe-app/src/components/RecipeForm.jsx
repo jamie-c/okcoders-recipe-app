@@ -26,7 +26,7 @@ export default function RecipeForm({ recipe, edit }) {
     const [loading, setLoading] = useState(false)
     const [isEditing, setIsEditing] = useState(edit || false)
 
-    const [steps, setSteps] = useState(recipe.instructions || ['']) // Initialize with one empty step
+    const [steps, setSteps] = useState(recipe ? recipe.instructions : ['']) // Initialize with one empty step
 
     // Function to add a new step
     const addStep = () => {
