@@ -1,9 +1,10 @@
 import FullWidthHeaderImage from '@/components/FullWidthHeaderImage'
+import FullWidthHeaderImageLoading from '@/components/FullWidthHeaderImageLoading'
 import RecipeDescription from '@/components/RecipeDescription'
 import RecipeTags from '@/components/RecipeTags'
 import RecipeTitle from '@/components/RecipeTitle'
 import { inter } from '@/lib/theme'
-import { Stack, Typography } from '@mui/material'
+import { Skeleton, Stack, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
@@ -76,7 +77,25 @@ export default function Recipe() {
 
     return (
         <div className={`${inter.className}`}>
-            {loading && <h1>Loading...</h1>}
+            {loading && (
+                <>
+                    <FullWidthHeaderImageLoading recipe={recipe}>
+                        <Typography variant="h1" color="white" width="75%">
+                            <Skeleton variant="text" width="100%" />
+                        </Typography>
+                    </FullWidthHeaderImageLoading>
+                    <Stack sx={{ px: { xs: 4, sm: 8, md: 20 } }}>
+                        <Typography variant="h1">
+                            <Skeleton variant="text" width="75%" />
+                        </Typography>
+                        <Typography variant="body1">
+                            <Skeleton variant="text" width="100%" />
+                            <Skeleton variant="text" width="100%" />
+                            <Skeleton variant="text" width="100%" />
+                        </Typography>
+                    </Stack>
+                </>
+            )}
             {!recipe?._id && !loading && (
                 <Typography>Listing not found</Typography>
             )}
