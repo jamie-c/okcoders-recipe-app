@@ -1,26 +1,45 @@
 import MenuBookIcon from '@mui/icons-material/MenuBook'
-import { IconButton, TextField, Typography } from '@mui/material'
+import { Box, IconButton, TextField, Typography } from '@mui/material'
+import Link from 'next/link'
 import UserIcon from './UserIcon'
 
 function Header() {
     return (
         <div style={styles.container}>
-            <div style={styles.headerContent}>
-                <Typography
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0 10px',
+                    opacity: '1',
+                    zIndex: '999',
+                }}
+            >
+                <Link href="/" style={{ textDecoration: 'none' }}>
+                    <Typography
+                        sx={{
+                            fontSize: {
+                                xs: '2rem',
+                                sm: '3.25rem',
+                            },
+                        }}
+                        color="primary"
+                        textTransform="uppercase"
+                        fontWeight="bold"
+                        letterSpacing="5px"
+                    >
+                        Cookbook
+                    </Typography>
+                </Link>
+                <TextField
                     sx={{
-                        fontSize: {
-                            xs: '2.5rem',
-                            sm: '3.25rem',
+                        display: {
+                            xs: 'none',
+                            sm: 'block',
                         },
                     }}
-                    color="primary"
-                    textTransform="uppercase"
-                    fontWeight="bold"
-                    letterSpacing="5px"
-                >
-                    Cookbook
-                </Typography>
-                <TextField
                     color="primary"
                     fullWidth
                     id="outlined-search"
@@ -28,26 +47,34 @@ function Header() {
                     type="search"
                     style={styles.searchField}
                 />
-                <IconButton
-                    size="large"
-                    edge="start"
-                    color="primary"
-                    aria-label="menu"
-                    style={styles.menuButton}
+                <span
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                    }}
                 >
-                    <MenuBookIcon style={styles.menuIcon} />
-                </IconButton>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="primary"
+                        aria-label="menu"
+                        style={styles.menuButton}
+                    >
+                        <MenuBookIcon style={styles.menuIcon} />
+                    </IconButton>
 
-                <IconButton
-                    size="large"
-                    edge="start"
-                    color="primary"
-                    aria-label="menu"
-                    style={styles.menuButton}
-                >
-                    <UserIcon style={styles.menuIcon} />
-                </IconButton>
-            </div>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="primary"
+                        aria-label="menu"
+                        style={styles.menuButton}
+                    >
+                        <UserIcon style={styles.menuIcon} />
+                    </IconButton>
+                </span>
+            </Box>
         </div>
     )
 }
@@ -61,20 +88,6 @@ const styles = {
         backdropFilter: 'blur(10px)',
         zIndex: '900',
     },
-    headerContent: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 10px',
-        opacity: '1',
-        zIndex: '999',
-    },
-    // title: {
-    //     fontFamily: 'Dosis',
-    //     textTransform: 'uppercase',
-    //     fontSize: '3.25rem',
-    //     marginLeft: '40px',
-    //     letterSpacing: '5px',
-    // },
     searchField: {
         marginLeft: '50px',
         marginRight: '50px',
