@@ -6,8 +6,17 @@ export default async function handler(req, res) {
     const { maxRecipes } = req.headers
 
     if (req.method === 'POST') {
+        const { _id } = req.body
+        if (_id) {
+            const recipe = await Recipe.findOneAndUpdate(
+                { _id },
+                { ...req.body },
+                { new: true }
+            )
+            return res.status(200).json(recipe)
+        }
         const recipe = await Recipe.create(req.body)
-        res.status(201).json(recipe)
+        return res.status(201).json(recipe)
     } else if (req.method === 'GET') {
         let recipes
         if (maxRecipes) {
@@ -20,8 +29,8 @@ export default async function handler(req, res) {
             recipes = await Recipe.find({})
         }
 
-        res.status(200).json(recipes)
+        return res.status(200).json(recipes)
     } else {
-        res.status(405).json({ message: 'Method not allowed' })
+        return res.status(405).json({ message: 'Method not allowed' })
     }
 }
