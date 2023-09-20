@@ -69,6 +69,7 @@ export default function Recipe() {
     setTotalTime();
   }, [recipe]);
 
+<<<<<<< HEAD
   return (
     <div className={`${inter.className}`}>
       {loading && (
@@ -97,3 +98,92 @@ export default function Recipe() {
     </div>
   );
 }
+=======
+    useEffect(() => {
+        if (!recipe?._id) return
+        setPrepTime()
+        setCookTime()
+        setTotalTime()
+    }, [recipe])
+
+    return (
+        <div className={`${inter.className}`}>
+            {loading && (
+                <>
+                    <FullWidthHeaderImageLoading recipe={recipe}>
+                        <Typography variant="h1" color="white" width="75%">
+                            <Skeleton variant="text" width="100%" />
+                        </Typography>
+                    </FullWidthHeaderImageLoading>
+                    <Stack sx={{ px: { xs: 2, sm: 8, md: 20 } }}>
+                        <Typography variant="h1">
+                            <Skeleton variant="text" width="75%" />
+                        </Typography>
+                        <Typography variant="body1">
+                            <Skeleton variant="text" width="100%" />
+                            <Skeleton variant="text" width="100%" />
+                            <Skeleton variant="text" width="100%" />
+                        </Typography>
+                    </Stack>
+                </>
+            )}
+            {!recipe?._id && !loading && (
+                <Typography>Listing not found</Typography>
+            )}
+            {recipe?._id && (
+                <>
+                    <FullWidthHeaderImage recipe={recipe} loading={loading}>
+                        <Typography
+                            variant="h1"
+                            color="white"
+                            sx={{
+                                textTransform: 'uppercase',
+                                fontWeight: 'bold',
+                                fontSize: {
+                                    xs: '2rem',
+                                    sm: '3rem',
+                                    md: '4rem',
+                                    lg: '5rem',
+                                    xl: '6rem',
+                                },
+                            }}
+                        >
+                            {recipe.name}
+                        </Typography>
+                    </FullWidthHeaderImage>
+                    <Stack sx={{ px: { xs: 2, sm: 8, md: 20 } }}>
+                        <RecipeTitle>{recipe.name}</RecipeTitle>
+                        <RecipeDescription>
+                            {recipe.description}
+                        </RecipeDescription>
+                        <RecipeTags tags={recipe.tags} />
+                        <h2>Info</h2>
+                        <p>Prep Time: {prepTimeDisplay}</p>
+                        <p>Cook Time: {cookTimeDisplay}</p>
+                        <p>Total Time: {totalTimeDisplay}</p>
+                        <p>
+                            Servings: {recipe.servings.amount}{' '}
+                            {recipe.servings.unit}
+                        </p>
+                        <h2>Ingredients</h2>
+                        {recipe.ingredients.map((ingredient) => (
+                            <div key={ingredient._id}>
+                                <p>
+                                    {ingredient.amount} {ingredient.unit}{' '}
+                                    {ingredient.name}
+                                </p>
+                            </div>
+                        ))}
+                        <h2>Instructions</h2>
+                        {recipe.instructions.map((instruction) => (
+                            <div key={`${recipe._id}-instructions`}>
+                                <p>{instruction}</p>
+                            </div>
+                        ))}
+                    </Stack>
+                </>
+            )}
+        </div>
+    )
+}
+>>>>>>> 84fb092 (pass loading state to loading prop on FullWidthHeaderImage)
