@@ -1,14 +1,18 @@
-import { theme } from '@/lib/theme'
+import { Skeleton } from '@mui/material'
 import Image from 'next/image'
 
 const FullWidthHeaderImage = ({ recipe, children }) => (
     <div style={{ position: 'relative', width: '50vw', height: '35vh' }}>
-        <Image
-            style={{ objectFit: 'cover', borderRadius: 6 }}
-            src={recipe.imageUrl}
-            alt={recipe.name}
-            fill
-        />
+        {loading ? (
+            <Skeleton variant="rectangular" width="100%" height="100%" />
+        ) : (
+            <Image
+                style={{ objectFit: 'cover', borderRadius: 6 }}
+                src={recipe.imageUrl}
+                alt={recipe.name}
+                fill
+            />
+        )}
         <div
             style={{
                 position: 'absolute',
