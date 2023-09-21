@@ -37,6 +37,7 @@ function Header() {
                 sm: '3.25rem',
               },
             }}
+            fontFamily={ 'Dosis' }
             color="primary"
             textTransform="uppercase"
             fontWeight="bold"
