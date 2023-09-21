@@ -2,7 +2,7 @@ import { theme } from '@/lib/theme'
 import Image from 'next/image'
 
 const FullWidthHeaderImage = ({ recipe, children }) => (
-    <div style={{ position: 'relative', width: '100vw', height: '65vh' }}>
+    <div style={{ position: 'relative', width: '50vw', height: '35vh' }}>
         <Image
             style={{ objectFit: 'cover', borderRadius: 6 }}
             src={recipe.imageUrl}
@@ -21,7 +21,6 @@ const FullWidthHeaderImage = ({ recipe, children }) => (
                 alignItems: 'center',
                 justifyContent: 'center',
                 textAlign: 'center',
-                background: `linear-gradient(to bottom, ${theme.palette.primary.main}, transparent)`,
             }}
         >
             {children}

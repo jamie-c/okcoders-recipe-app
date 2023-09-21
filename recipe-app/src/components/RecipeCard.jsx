@@ -1,5 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography, List, ListItem, ListItemText } from '@mui/material';
+import FullWidthHeaderImage from '@/components/FullWidthHeaderImage';
+import FullWidthHeaderImageLoading from '@/components/FullWidthHeaderImageLoading';
 
 function RecipeCard({ recipe }) {
   return (
@@ -20,8 +22,44 @@ function RecipeCard({ recipe }) {
 
       {/* Instructions */}
       <CardContent style={styles.instructions}>
-        <Typography variant="h5">Instructions</Typography>
-        <p>Here's where instructions go</p>
+      <container  style={styles.recipeNameContainer}>
+          <Typography variant="h5" style={styles.recipeName}>{recipe.name}</Typography>
+        </container>        
+      {/* Render FullWidthHeaderImageLoading if loading */}
+        {recipe.loading && (
+          <FullWidthHeaderImageLoading recipe={recipe}>
+            <Typography variant="h1" color="white" width="75%">
+              {/* Loading content */}
+            </Typography>
+          </FullWidthHeaderImageLoading>
+        )}
+
+        {/* Render FullWidthHeaderImage if not loading */}
+        {!recipe.loading && (
+          <FullWidthHeaderImage recipe={recipe}>
+            <Typography
+              variant="h1"
+              color="white"
+              sx={{
+                textTransform: 'uppercase',
+                fontWeight: 'bold',
+                fontSize: {
+                  xs: '2rem',
+                  sm: '3rem',
+                  md: '4rem',
+                  lg: '5rem',
+                  xl: '6rem',
+                },
+              }}
+            >
+            </Typography>
+          </FullWidthHeaderImage>
+        )}
+        {recipe.instructions.map((instruction, index) => (
+          <p key={`${recipe._id}-instruction-${index}`}>{instruction}</p>
+        ))}
+        
+
       </CardContent>
     </Card>
   );
@@ -48,9 +86,16 @@ const styles = {
     flex: 3,
     padding: '16px',
     marginLeft: '30px',
-    maxHeight: '400px',
+    
     overflowY: 'auto',
   },
+  recipeNameContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  recipeName: {
+    fontSize: '30px'
+  }
 };
 
 export default RecipeCard;
