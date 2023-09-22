@@ -1,18 +1,20 @@
 import AddSharpIcon from '@mui/icons-material/AddSharp'
 import ClearSharpIcon from '@mui/icons-material/ClearSharp'
-import { Button, Stack, TextField, Typography } from '@mui/material'
+import { Button, Skeleton, Stack, TextField, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export default function RecipeForm({ recipe, edit }) {
-    console.log('recipe', recipe)
+    if (recipe) {
+        console.log('recipe', recipe)
+    }
     const router = useRouter()
     const [formData, setFormData] = useState(
         recipe || {
             name: '',
             description: '',
             ingredients: [{ id: '', name: '', amount: '', unit: '' }],
-            instructions: [],
+            instructions: [''],
             prepTime: { hours: '', minutes: '' },
             cookTime: { hours: '', minutes: '' },
             servings: { amount: '', unit: '' },
@@ -21,23 +23,28 @@ export default function RecipeForm({ recipe, edit }) {
             createdBy: '',
         }
     )
-    const [ingredients, setIngredients] = useState([])
+    const [dbIngredients, setDbIngredients] = useState([])
+    const [fdcIngredients, setFdcIngredients] = useState([])
     const [filteredIngredients, setFilteredIngredients] = useState([[]])
     const [loading, setLoading] = useState(false)
     const [isEditing, setIsEditing] = useState(edit || false)
-
-    const [steps, setSteps] = useState(recipe ? recipe.instructions : ['']) // Initialize with one empty step
+    const [ingPickerIsVisible, setIngPickerIsVisible] = useState([false])
 
     // Function to add a new step
     const addStep = () => {
-        setSteps([...steps, ''])
+        const prevInstructions = formData.instructions
+        prevInstructions.push('')
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            instructions: prevInstructions,
+        }))
     }
 
     // Function to remove a step
     const removeStep = (index) => {
-        const newSteps = [...steps]
+        const newSteps = formData.instructions
         newSteps.splice(index, 1)
-        setSteps(newSteps)
+        if (newSteps.length === 0) newSteps.push('')
         setFormData((prevFormData) => ({
             ...prevFormData,
             instructions: newSteps,
@@ -46,9 +53,8 @@ export default function RecipeForm({ recipe, edit }) {
 
     // Function to update a step's text
     const updateStep = (index, text) => {
-        const newSteps = [...steps]
+        const newSteps = formData.instructions
         newSteps[index] = text
-        setSteps(newSteps)
         setFormData((prevFormData) => ({
             ...prevFormData,
             instructions: newSteps,
@@ -66,7 +72,7 @@ export default function RecipeForm({ recipe, edit }) {
         })
             .then((response) => response.json())
             .then((data) => {
-                router.push('/')
+                router.push(`/recipes/${data._id}`)
                 console.log(data)
             })
             .catch((error) => console.error(error))
@@ -83,6 +89,17 @@ export default function RecipeForm({ recipe, edit }) {
     // HANDLE TYPING INTO INGREDIENT INPUT
     const handleIngredientChange = (event, index) => {
         const { name, value } = event.target
+        if (value.length > 0) {
+            setIngPickerIsVisible((prevData) => {
+                prevData[index] = true
+                return prevData
+            })
+        } else if (value.length === 0) {
+            setIngPickerIsVisible((prevData) => {
+                prevData[index] = false
+                return prevData
+            })
+        }
         if (name === 'name') {
             filterIngredients(value, index)
         }
@@ -105,7 +122,9 @@ export default function RecipeForm({ recipe, edit }) {
         // prevent form submission
         event.preventDefault()
         // change cursor focus to the next item
-        const nextInput = document.getElementById(`remove-button-${index}`)
+        const nextInput = document.getElementById(
+            `ingredient-name-${index + 1}`
+        )
         if (nextInput) {
             nextInput.focus()
         }
@@ -116,18 +135,27 @@ export default function RecipeForm({ recipe, edit }) {
                 { name: '', amount: '', unit: '' },
             ],
         }))
+        setIngPickerIsVisible((prevData) => [...prevData, false])
     }
 
     // HANDLE CLICKING THE REMOVE INGREDIENT BUTTON
-    const handleRemoveIngredient = (ingredient) => {
-        const index = formData.ingredients.indexOf(ingredient)
+    const handleRemoveIngredient = (ingredient, index) => {
         setFormData((prevFormData) => {
             const ingredients = [...prevFormData.ingredients]
             ingredients.splice(index, 1)
+            if (ingredients.length === 0) {
+                ingredients.push({ id: '', name: '', amount: '', unit: '' })
+                setIngPickerIsVisible([false])
+            }
             return {
                 ...prevFormData,
                 ingredients,
             }
+        })
+        setFilteredIngredients((prevData) => {
+            const newData = [...prevData].splice(index, 1)
+            if (newData.length === 0) newData.push([])
+            return newData
         })
     }
 
@@ -141,42 +169,45 @@ export default function RecipeForm({ recipe, edit }) {
             },
         })
         const data = await response.json()
-        setIngredients(data.ingredients)
+        setDbIngredients(data.ingredients)
         setLoading(false)
         return
     }
 
     // SEARCH FDC API FOR INGREDIENTS
     const searchIngredients = async (ing, index) => {
-        setLoading(true)
-        try {
-            const response = await fetch(
-                'http://localhost:3000/api/ingredients/fdc-search',
-                {
-                    method: 'GET',
-                    headers: {
-                        name: ing,
-                    },
+        const filteredIng = filteredIngredients[index]
+        if (filteredIng && filteredIng.length === 0) {
+            setLoading(true)
+            try {
+                const response = await fetch(
+                    'http://localhost:3000/api/ingredients/fdc-search',
+                    {
+                        method: 'GET',
+                        headers: {
+                            name: ing,
+                        },
+                    }
+                )
+                const data = await response.json()
+                const foundIngredients = data.ingredients.foods.map((food) => {
+                    return {
+                        name: food.description,
+                        fdcId: food.fdcId.toString(),
+                        _id: '',
+                    }
+                })
+                if (foundIngredients.length === 0) {
+                    setLoading(false)
+                    return setFdcIngredients([])
                 }
-            )
-            const data = await response.json()
-            const fdcIngredients = data.ingredients.foods.map((food) => {
-                return {
-                    name: food.description,
-                    fdcId: food.fdcId.toString(),
-                    _id: '',
-                }
-            })
-            if (fdcIngredients.length === 0) {
-                return res.status(404).json({ message: 'No ingredients found' })
+                setFdcIngredients(foundIngredients)
+            } catch (error) {
+                setLoading(false)
+                console.error(error)
             }
-            const prevFilteredIngredients = [...filteredIngredients]
-            prevFilteredIngredients[index] = fdcIngredients
-            setFilteredIngredients(prevFilteredIngredients)
-        } catch (error) {
-            console.error(error)
+            setLoading(false)
         }
-        setLoading(false)
         return
     }
 
@@ -190,20 +221,38 @@ export default function RecipeForm({ recipe, edit }) {
         if (ing.length === 0) {
             const prevIngredients = [...filteredIngredients]
             prevIngredients[index] = []
-            setFilteredIngredients(prevIngredients)
+            return setFilteredIngredients(prevIngredients)
         } else {
             // replace the list at index with the filtered list
             const prevIngredients = [...filteredIngredients]
-            const filtered = ingredients.filter((ingredient) => {
+            const dbFiltered = dbIngredients.filter((ingredient) => {
                 return ingredient.name.toLowerCase().includes(ing.toLowerCase())
             })
+            const fdcFiltered = fdcIngredients.filter((ingredient) => {
+                return ingredient.name.toLowerCase().includes(ing.toLowerCase())
+            })
+            // combine dbFiltered and fdcFiltered but remove duplicates from fdcFiltered
+            const filtered = [...dbFiltered, ...fdcFiltered].reduce(
+                (acc, cur) => {
+                    const found = acc.find((item) => item.name === cur.name)
+                    if (!found) {
+                        return acc.concat([cur])
+                    } else {
+                        return acc
+                    }
+                },
+                []
+            )
 
-            if (filtered.length === 0) {
-                searchIngredients(ing, index)
-            } else prevIngredients[index] = filtered
+            prevIngredients[index] = filtered
 
             setFilteredIngredients(prevIngredients)
+
+            if (filtered.length === 0 && !loading) {
+                return searchIngredients(ing, index)
+            }
         }
+        return
     }
 
     // HANDLE SELECTING AN INGREDIENT FROM THE LIST
@@ -231,6 +280,7 @@ export default function RecipeForm({ recipe, edit }) {
                     ingredients,
                 }
             })
+            console.log(formData.ingredients[index])
         }
 
         setFormData((prevFormData) => {
@@ -250,6 +300,79 @@ export default function RecipeForm({ recipe, edit }) {
             filtered[index] = []
             return filtered
         })
+        setIngPickerIsVisible((prevData) => {
+            prevData[index] = false
+            return prevData
+        })
+    }
+
+    const IngredientPicker = ({ index }) => {
+        const filteredIng = filteredIngredients[index]
+
+        return (
+            <Stack
+                alignItems="flex-start"
+                justifyContent="left"
+                key={`searchList-${index}`}
+                px={1}
+                position="absolute"
+                top="100%"
+                left={0}
+                width="100%"
+                minHeight="210px"
+                textAlign="left"
+                sx={{
+                    borderRadius: '6px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    backdropFilter: 'blur(10px)',
+                    zIndex: '900',
+                    boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+                }}
+            >
+                Select an ingredient from the list:
+                {loading && (
+                    <>
+                        <Skeleton
+                            sx={{
+                                margin: '0 0 4px 0',
+                            }}
+                            variant="rounded"
+                            width="50%"
+                            height="37px"
+                        />
+                        <Skeleton
+                            sx={{
+                                margin: '0 0 4px 0',
+                            }}
+                            variant="rounded"
+                            width="50%"
+                            height="37px"
+                        />
+                        <Skeleton
+                            sx={{
+                                margin: '0 0 4px 0',
+                            }}
+                            variant="rounded"
+                            width="50%"
+                            height="37px"
+                        />
+                    </>
+                )}
+                {filteredIng &&
+                    filteredIng.map((ingredient, i) => {
+                        return (
+                            <Button
+                                key={i + '-db-' + ingredient._id}
+                                onClick={() =>
+                                    handleSelectIngredient(ingredient, index)
+                                }
+                            >
+                                {ingredient.name}
+                            </Button>
+                        )
+                    })}
+            </Stack>
+        )
     }
 
     const handleRecipeTime = (event) => {
@@ -304,15 +427,6 @@ export default function RecipeForm({ recipe, edit }) {
         }))
     }
 
-    const handleInstructions = (event) => {
-        const { name, value } = event.target
-        const instructions = value.split('\n\n')
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [name]: instructions,
-        }))
-    }
-
     const maxButtonWidth = '250px'
 
     return (
@@ -327,7 +441,6 @@ export default function RecipeForm({ recipe, edit }) {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    margin: '10px',
                     padding: '0 10px 50px 10px',
                 }}
             >
@@ -353,7 +466,10 @@ export default function RecipeForm({ recipe, edit }) {
                     />
                     <Typography variant="h6">Ingredients</Typography>
                     {formData.ingredients.map((ingredient, index) => (
-                        <Stack key={`ingredients-${index}`}>
+                        <Stack
+                            sx={{ position: 'relative' }}
+                            key={`ingredients-${index}`}
+                        >
                             <Stack
                                 sx={{
                                     position: 'relative',
@@ -369,6 +485,7 @@ export default function RecipeForm({ recipe, edit }) {
                                 gap="8px"
                             >
                                 <TextField
+                                    id={`ingredient-name-${index}`}
                                     sx={{
                                         minWidth: { xs: '100%', sm: '300px' },
                                     }}
@@ -456,44 +573,18 @@ export default function RecipeForm({ recipe, edit }) {
                                     variant="contained"
                                     color="info"
                                     onClick={() =>
-                                        handleRemoveIngredient(ingredient)
+                                        handleRemoveIngredient(
+                                            ingredient,
+                                            index
+                                        )
                                     }
                                 >
                                     <ClearSharpIcon />
                                 </Button>
                             </Stack>
-                            <Stack
-                                alignItems="flex-start"
-                                key={`searchList-${index}`}
-                            >
-                                <>
-                                    {!filteredIngredients[index] && loading && (
-                                        <p>Loading...</p>
-                                    )}
-                                    {filteredIngredients[index] &&
-                                        filteredIngredients[index].map(
-                                            (ingredient) => {
-                                                return (
-                                                    <Button
-                                                        key={
-                                                            index +
-                                                            '-' +
-                                                            ingredient._id
-                                                        }
-                                                        onClick={() =>
-                                                            handleSelectIngredient(
-                                                                ingredient,
-                                                                index
-                                                            )
-                                                        }
-                                                    >
-                                                        {ingredient.name}
-                                                    </Button>
-                                                )
-                                            }
-                                        )}
-                                </>
-                            </Stack>
+                            {ingPickerIsVisible[index] && (
+                                <IngredientPicker index={index} />
+                            )}
                         </Stack>
                     ))}
                     <Button
@@ -511,7 +602,7 @@ export default function RecipeForm({ recipe, edit }) {
                     </Button>
                     <div>
                         <h2>Instructions</h2>
-                        {steps.map((step, index) => (
+                        {formData.instructions.map((step, index) => (
                             <div key={`instructions-${index}`}>
                                 <TextField
                                     label={`Step ${index + 1}`}
@@ -542,15 +633,6 @@ export default function RecipeForm({ recipe, edit }) {
                             Add Step
                         </Button>
                     </div>
-                    {/* <Typography variant="h6">Instructions</Typography>
-                    <TextField
-                        label="Instructions"
-                        name="instructions"
-                        value={formData.instructions.join('\n\n')}
-                        onChange={handleInstructions}
-                        multiline
-                        required
-                    /> */}
                     <Typography variant="h6">Prep & Cook Time</Typography>
                     {/* [x] TODO: form accepts hours and minutes and stores value in minutes in db */}
                     <Stack flex flexDirection="row" gap="8px">

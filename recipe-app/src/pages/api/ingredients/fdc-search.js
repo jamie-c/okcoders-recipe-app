@@ -1,6 +1,5 @@
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-        console.log('running fdc-search')
         const { name, maxIngredients } = req.headers
         const nameQuery = name.replace(' ', '%20')
         const maxIngredientsQuery = maxIngredients ? maxIngredients : 5
