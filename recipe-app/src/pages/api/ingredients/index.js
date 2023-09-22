@@ -20,7 +20,7 @@ export default async function handler(req, res) {
             ingredients = await Ingredient.find(
                 {},
                 { name: true, fdcId: true },
-                { limit: 10, sort: { name: 'asc' } }
+                { sort: { name: 'asc' } }
             )
         }
 
