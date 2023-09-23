@@ -4,16 +4,18 @@ import { getAuth } from '@clerk/nextjs/server'
 
 export default async function handler(req, res) {
     const { userId } = getAuth(req)
-    console.log(userId)
     await dbConnect()
     const { maxRecipes } = req.headers
 
     if (req.method === 'POST') {
+        if (!userId) {
+            return res.status(401).json({ message: 'Unauthorized' })
+        }
         const { _id } = req.body
         if (_id) {
             const recipe = await Recipe.findOneAndUpdate(
                 { _id },
-                { ...req.body },
+                { ...req.body, userId },
                 { new: true }
             )
             return res.status(200).json(recipe)

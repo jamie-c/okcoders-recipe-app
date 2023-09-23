@@ -1,6 +1,6 @@
 import FullWidthHeaderImage from '@/components/FullWidthHeaderImage'
 import FullWidthHeaderImageLoading from '@/components/FullWidthHeaderImageLoading'
-import RecipeCard from '@/components/RecipeCard' // Import the RecipeCard component
+import RecipeCard from '@/components/RecipeCard'
 import RecipeDescription from '@/components/RecipeDescription'
 import RecipeTags from '@/components/RecipeTags'
 import RecipeTitle from '@/components/RecipeTitle'

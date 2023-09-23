@@ -1,14 +1,13 @@
-import AddSharpIcon from '@mui/icons-material/AddSharp'
-import ClearSharpIcon from '@mui/icons-material/ClearSharp'
-import { Button, Skeleton, Stack, TextField, Typography } from '@mui/material'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useAuth } from "@clerk/nextjs";
+import AddSharpIcon from '@mui/icons-material/AddSharp';
+import ClearSharpIcon from '@mui/icons-material/ClearSharp';
+import { Button, Skeleton, Stack, TextField, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export default function RecipeForm({ recipe, edit }) {
-    if (recipe) {
-        console.log('recipe', recipe)
-    }
     const router = useRouter()
+    const { isLoaded, userId, sessionId, getToken } = useAuth();
     const [formData, setFormData] = useState(
         recipe || {
             name: '',
