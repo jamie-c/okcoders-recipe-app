@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material'
+import { Stack, dividerClasses } from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
@@ -24,7 +24,8 @@ export default function Home() {
     }, [])
 
     return (
-        <>
+
+        <>        
             <h1>Home</h1>
             {loading ? (
                 <p>Loading...</p>
