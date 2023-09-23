@@ -1,9 +1,8 @@
-import { theme } from '@/lib/theme'
 import { Skeleton } from '@mui/material'
 import Image from 'next/image'
 
-const FullWidthHeaderImage = ({ recipe, loading, children }) => (
-    <div style={{ position: 'relative', width: '100vw', height: '65vh' }}>
+const RecipeCardHeaderImage = ({ recipe, loading, children }) => (
+    <div style={{ position: 'relative', width: '50vw', height: '35vh' }}>
         {loading ? (
             <Skeleton variant="rectangular" width="100%" height="100%" />
         ) : (
@@ -26,7 +25,6 @@ const FullWidthHeaderImage = ({ recipe, loading, children }) => (
                 alignItems: 'center',
                 justifyContent: 'center',
                 textAlign: 'center',
-                background: `linear-gradient(to bottom, ${theme.palette.primary.main}, transparent)`,
             }}
         >
             {children}
@@ -34,4 +32,4 @@ const FullWidthHeaderImage = ({ recipe, loading, children }) => (
     </div>
 )
 
-export default FullWidthHeaderImage
+export default RecipeCardHeaderImage
