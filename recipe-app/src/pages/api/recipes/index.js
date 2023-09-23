@@ -1,7 +1,10 @@
 import dbConnect from '@/server/db'
 import Recipe from '@/server/Recipe'
+import { getAuth } from '@clerk/nextjs/server'
 
 export default async function handler(req, res) {
+    const { userId } = getAuth(req)
+    console.log(userId)
     await dbConnect()
     const { maxRecipes } = req.headers
 
