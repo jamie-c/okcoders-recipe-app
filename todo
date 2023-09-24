@@ -43,7 +43,7 @@
     - [ ] Implement a function in the MongoDB database that allows users to find all their recipes once they are logged in.
 
 *** TODO Update Search Function
-    - [ ] Add a new API route called ‘Search.’
+    - [x] Add a new API route called ‘Search.’
     - [ ] Query the recipes collection in MongoDB for matches based on user input.
     - [ ] Search across multiple fields (name, ingredients, tags) in a case-insensitive manner.
     - [ ] Use an “OR” compound query to find matching results.
