@@ -20,6 +20,7 @@
 
 *** TODO Drawer Links
     - [ ] Add links to the drawer for “Browse Recipes,” “Browse Ingredients,” and “My Recipes.”
+    - [ ] Add a link to the “Add New Recipe” page in the drawer.
 
 *** TODO Call to Action Component
     - [ ] Create a popup component that prompts users to create an account.
@@ -35,6 +36,10 @@
     - [ ] Create a component for toggling between favorited and created recipes.
 
 ** Back End (MongoDB)
+*** TODO Move Add New Recipe Form to /recipes/add
+    - [ ] Move the “Add New Recipe” form to the /recipes/add page.
+    - [ ] Remove the “Add New Recipe” form from the /recipes page.
+
 *** IN-PROGRESS Associate User IDs with Recipes:
     - [x] Add userId to recipe model.
     - [ ] Ensure that each recipe in the MongoDB database is associated with a user ID to track which user created the recipe or favorited it. You may need to update the recipe schema to include a field for the user ID.
@@ -42,9 +47,9 @@
 *** TODO Build ‘Find Recipes by User ID’ Function
     - [ ] Implement a function in the MongoDB database that allows users to find all their recipes once they are logged in.
 
-*** TODO Update Search Function
+*** IN-PROGRESS Update Search Function
     - [x] Add a new API route called ‘Search.’
-    - [ ] Query the recipes collection in MongoDB for matches based on user input.
-    - [ ] Search across multiple fields (name, ingredients, tags) in a case-insensitive manner.
-    - [ ] Use an “OR” compound query to find matching results.
+    - [x] Query the recipes collection in MongoDB for matches based on user input.
+    - [x] Search across multiple fields (name, ingredients, tags) in a case-insensitive manner.
+    - [x] Use an “OR” compound query to find matching results.
     - [ ] Return the results to the front end.
