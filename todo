@@ -36,6 +36,10 @@
     - [ ] Create a component for toggling between favorited and created recipes.
 
 ** Back End (MongoDB)
+
+*** TODO Add Recipes to Database
+    - [ ] Add 12 recipes to database.
+
 *** TODO Move Add New Recipe Form to /recipes/add
     - [ ] Move the “Add New Recipe” form to the /recipes/add page.
     - [ ] Remove the “Add New Recipe” form from the /recipes page.

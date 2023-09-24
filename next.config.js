@@ -1,13 +1,16 @@
-/** @type {import('next').NextConfig} */
+// next.config.js
+
 const nextConfig = {
     reactStrictMode: true,
     images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'images.unsplash.com',
-            },
-        ],
+        domains: ['cook.fnr.sndimg.com', 'images.unsplash.com'],
+        // Add other image domains as needed
+        // remotePatterns: [
+        //   {
+        //     protocol: 'https',
+        //     hostname: 'images.unsplash.com',
+        //   },
+        // ],
     },
 }
 
