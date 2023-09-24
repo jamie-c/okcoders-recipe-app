@@ -1,3 +1,4 @@
+import SearchBar from '@/components/SearchBar'
 import { Stack } from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -24,11 +25,16 @@ export default function Home() {
 
     return (
         <>
-            <h1>Home</h1>
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                <Stack>
+                <Stack
+                    sx={{
+                        px: { xs: 2, sm: 8, md: 20 },
+                    }}
+                >
+                    <h1>Home</h1>
+                    <SearchBar />
                     {recipes?.map((recipe) => (
                         <Link
                             style={{
