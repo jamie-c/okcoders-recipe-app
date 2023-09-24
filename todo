@@ -1,45 +1,50 @@
-# Front End:
+#+title:  Recipe App Team To-Do List
+#+author: Recipe App Team
+#+date:   2023-09-23
 
-[ ] 1. Landing Page:
-[ ] Display 3 recipes.
-[ ] Add a “Find a Recipe” search field below.
-[ ] Optionally, add a “Feeling Lucky” button.
-[ ] Remove the search bar from the Navbar and place it in the center of the page.
-[ ] 2. Create Index Pages & Routes:
+* Recipe App Team To-Do List
 
-    [ ]   Create a page for a list of recipes sorted alphabetically (url/recipes).
-    [ ]   Create a page for a list of ingredients sorted alphabetically (url/ingredients).
+** Front End
+*** TODO Landing Page
+    - [ ] Display 3 recipes.
+    - [ ] Add a “Find a Recipe” search field below.
+    - [ ] Optionally, add a “Feeling Lucky” button.
+    - [ ] Remove the search bar from the Navbar and place it in the center of the page.
 
-[ ] 3. App Name:
-[ ] Finalize the name of the app.
+*** TODO Create Index Pages & Routes
+    - [ ] Create a page for a list of recipes sorted alphabetically (url/recipes).
+    - [ ] Create a page for a list of ingredients sorted alphabetically (url/ingredients).
 
-[ ] 4. Drawer Links:
-[ ] Add links to the drawer for “Browse Recipes,” “Browse Ingredients,” and “My Recipes.”
+*** TODO App Name
+    - [ ] Finalize the name of the app.
 
-[ ] 5. Call to Action Component:
-[ ] Create a popup component that prompts users to create an account.
-[ ] Display this popup when a user is on the “recipes/add” page and is not signed in.
+*** TODO Drawer Links
+    - [ ] Add links to the drawer for “Browse Recipes,” “Browse Ingredients,” and “My Recipes.”
 
-[ ] 6. Dynamic URL Route:
-[ ] Create a dynamic URL route (ingredients/id) that displays the recipe associated with that ingredient.
+*** TODO Call to Action Component
+    - [ ] Create a popup component that prompts users to create an account.
+    - [ ] Display this popup when a user is on the “recipes/add” page and is not signed in.
 
-[ ] 7. My Recipes Page:
-[ ] Create a page where users can toggle between favorited and created recipes.
+*** TODO Dynamic URL Route
+    - [ ] Create a dynamic URL route (ingredients/id) that displays the recipe associated with that ingredient.
 
-[ ] 8. Toggle Component:
-[ ] Create a component for toggling between favorited and created recipes.
+*** TODO My Recipes Page
+    - [ ] Create a page where users can toggle between favorited and created recipes.
 
-# Back End (MongoDB):
+*** TODO Toggle Component
+    - [ ] Create a component for toggling between favorited and created recipes.
 
-[ ] 1. Associate User IDs with Recipes:
+** Back End (MongoDB)
+*** IN-PROGRESS Associate User IDs with Recipes:
+    - [x] Add userId to recipe model.
+    - [ ] Ensure that each recipe in the MongoDB database is associated with a user ID to track which user created the recipe or favorited it. You may need to update the recipe schema to include a field for the user ID.
 
-[ ] Ensure that each recipe in the MongoDB database is associated with a user ID to track which user created the recipe or favorited it. You may need to update the recipe schema to include a field for the user ID.
+*** TODO Build ‘Find Recipes by User ID’ Function
+    - [ ] Implement a function in the MongoDB database that allows users to find all their recipes once they are logged in.
 
-[ ] 2. Build ‘Find Recipes by User ID’ Function:
-[ ] Implement a function in the MongoDB database that allows users to find all their recipes once they are logged in.
-[ ] 3. Update Search Function:
-[ ] Add a new API route called ‘Search.’
-[ ] Query the recipes collection in MongoDB for matches based on user input.
-[ ] Search across multiple fields (name, ingredients, tags) in a case-insensitive manner.
-[ ] Use an “OR” compound query to find matching results.
-[ ] Return the results to the front end.
+*** TODO Update Search Function
+    - [ ] Add a new API route called ‘Search.’
+    - [ ] Query the recipes collection in MongoDB for matches based on user input.
+    - [ ] Search across multiple fields (name, ingredients, tags) in a case-insensitive manner.
+    - [ ] Use an “OR” compound query to find matching results.
+    - [ ] Return the results to the front end.
