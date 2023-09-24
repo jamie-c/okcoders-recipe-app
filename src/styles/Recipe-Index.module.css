@@ -1,0 +1,52 @@
+/* Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f5f5f5; /* Background color */
+}
+
+/* Recipe Index Title */
+.recipeIndexTitle {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #010b8b; /* Title color */
+}
+
+/* Loading Message */
+.loadingMessage {
+    font-size: 1.5rem;
+    color: #010b8b; /* Loading message color */
+}
+
+/* Recipe Group */
+.recipeGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+/* Recipe Letter */
+.recipeLetter {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #010b8b; /* Letter color */
+    text-decoration: none;
+}
+
+/* Recipe Link */
+.recipeLink {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #333; /* Recipe link color */
+    transition: color 0.3s ease-in-out;
+    margin-top: 0.5rem;
+}
+
+.recipeLink:hover {
+    color: #010b8b; /* Hovered recipe link color */
+}
