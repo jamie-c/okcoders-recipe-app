@@ -1,6 +1,8 @@
-import Autocomplete from '@mui/material/Autocomplete'
+import SearchIcon from '@mui/icons-material/Search'
+import { Box, IconButton, InputAdornment, Skeleton, Stack, Typography } from '@mui/material'
 import CircularProgress from '@mui/material/CircularProgress'
 import TextField from '@mui/material/TextField'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 export default function Asynchronous() {
@@ -10,7 +12,14 @@ export default function Asynchronous() {
     const [keyword, setKeyword] = useState('')
 
     const handleChange = (event) => {
+        event.preventDefault()
         setKeyword(event.target.value)
+        if (event.target.value === '') {
+            setOptions([])
+            setOpen(false)
+            return
+        }
+        setOpen(true)
         // check if value is in options
         const found = options.find((element) =>
             element?.name.toLowerCase().includes(event.target.value)
@@ -18,10 +27,7 @@ export default function Asynchronous() {
         if (found) {
             return
         } else {
-            setOpen(false)
-            setOptions([])
             handleSearch()
-            setOpen(true)
         }
     }
 
@@ -35,6 +41,84 @@ export default function Asynchronous() {
         })
         const json = await data.json()
         setOptions([...json])
+    }
+
+    const RecipePicker = () => {
+
+        return (
+            <Stack
+                alignItems="flex-start"
+                justifyContent="left"
+                position="absolute"
+                top="100%"
+                left={0}
+                width="100%"
+                minHeight="content-fit"
+                textAlign="left"
+                sx={{
+                    borderRadius: '6px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                    backdropFilter: 'blur(10px)',
+                    zIndex: '900',
+                    boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+                    overflow: 'hidden',
+                }}
+            >
+                {loading ? (
+                    <>
+                        <Skeleton
+                            sx={{
+                                margin: '0 0 4px 0',
+                            }}
+                            variant="rounded"
+                            width="100%"
+                            height="37px"
+                        />
+                        <Skeleton
+                            sx={{
+                                margin: '0 0 4px 0',
+                            }}
+                            variant="rounded"
+                            width="100%"
+                            height="37px"
+                        />
+                        <Skeleton
+                            sx={{
+                                margin: '0 0 4px 0',
+                            }}
+                            variant="rounded"
+                            width="100%"
+                            height="37px"
+                        />
+                    </>
+                ) : (
+                    options.map((recipe, i) => {
+                        return (
+                            <Link
+                                style={{ textDecoration: 'none', width: '100%', color: 'inherit' }}
+                                href={`/recipes/${recipe._id}`}
+                                key={i + '-db-' + recipe._id}
+                            >
+                            <Box
+                                sx={{
+                                    width: '100%',
+                                    padding: '8px 12px',
+                                    ":hover": {
+                                        backgroundColor: 'secondary.main',
+                                    },
+
+                                }}
+                            >
+                                <Typography variant='p'>
+                                    {recipe.name}
+                                </Typography>
+                            </Box>
+                            </Link>
+                        )
+                    })
+                )}
+            </Stack>
+        )
     }
 
     useEffect(() => {
@@ -56,41 +140,42 @@ export default function Asynchronous() {
     }, [open])
 
     return (
-        <Autocomplete
-            id="asynchronous-demo"
-            sx={{ width: '100%' }}
-            open={open}
-            onInputChange={handleChange}
-            onOpen={() => {
-                setOpen(true)
+        <Stack
+            sx={{
+                position: 'relative',
             }}
-            onClose={() => {
-                setOpen(false)
-            }}
-            isOptionEqualToValue={(option, value) => option.name === value.name}
-            getOptionLabel={(option) => option.name}
-            options={options}
-            loading={loading}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label="Search"
-                    InputProps={{
-                        ...params.InputProps,
+        >
+        <TextField
+                fullWidth
+                placeholder="Search for a Recipe"
+                InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <IconButton>
+                                    <SearchIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
                         endAdornment: (
                             <>
                                 {loading ? (
                                     <CircularProgress
-                                        color="inherit"
-                                        size={20}
+                                    color="inherit"
+                                    size={20}
                                     />
-                                ) : null}
-                                {params.InputProps.endAdornment}
+                                    ) : null}
                             </>
                         ),
                     }}
-                />
-            )}
-        />
+                variant="outlined"
+                size="large"
+                style={{ marginBottom: '16px' }}
+                sx={{
+                    position: 'relative',
+                }}
+                onChange={handleChange}
+            />
+            {open && <RecipePicker />}
+        </Stack>
     )
 }
