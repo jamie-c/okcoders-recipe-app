@@ -1,14 +1,11 @@
-import SearchIcon from '@mui/icons-material/Search'
+import SearchBar from '@/components/SearchBar'
 import {
     Box,
     Card,
     CardContent,
     CardMedia,
     Grid,
-    IconButton,
-    InputAdornment,
-    TextField,
-    Typography,
+    Typography
 } from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -42,22 +39,7 @@ export default function Home() {
             justifyContent="center"
             height="90vh"
         >
-            <TextField
-                fullWidth
-                placeholder="Search for a Recipe"
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <IconButton>
-                                <SearchIcon />
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-                variant="outlined"
-                size="large"
-                style={{ marginBottom: '16px' }}
-            />
+            <SearchBar />
             <Typography
                 variant="h3"
                 gutterBottom
