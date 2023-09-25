@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-export default function Asynchronous() {
+export default function SearchBar() {
     const [open, setOpen] = useState(false)
     const [options, setOptions] = useState([])
     const loading = open && options.length === 0
@@ -143,6 +143,7 @@ export default function Asynchronous() {
         <Stack
             sx={{
                 position: 'relative',
+                width: '100%',
             }}
         >
         <TextField
