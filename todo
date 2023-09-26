@@ -5,9 +5,9 @@
 * Recipe App Team To-Do List
 
 ** Front End
-*** TODO Landing Page
-    - [ ] Display 3 recipes.
-    - [ ] Add a “Find a Recipe” search field below.
+*** IN-PROGRESS Landing Page
+    - [x] Display 3 recipes.
+    - [x] Add a “Find a Recipe” search field below.
     - [ ] Optionally, add a “Feeling Lucky” button.
     - [ ] Remove the search bar from the Navbar and place it in the center of the page.
 
@@ -51,9 +51,9 @@
 *** TODO Build ‘Find Recipes by User ID’ Function
     - [ ] Implement a function in the MongoDB database that allows users to find all their recipes once they are logged in.
 
-*** IN-PROGRESS Update Search Function
+*** DONE Update Search Function
     - [x] Add a new API route called ‘Search.’
     - [x] Query the recipes collection in MongoDB for matches based on user input.
     - [x] Search across multiple fields (name, ingredients, tags) in a case-insensitive manner.
     - [x] Use an “OR” compound query to find matching results.
-    - [ ] Return the results to the front end.
+    - [x] Return the results to the front end.
