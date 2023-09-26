@@ -33,11 +33,13 @@ export default function Home() {
     return (
         <Box
             p={2}
+            pt={8}
             display="flex"
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            height="90vh"
+            minHeight="100vh"
+            position="relative"
         >
             <SearchBar />
             <Typography
