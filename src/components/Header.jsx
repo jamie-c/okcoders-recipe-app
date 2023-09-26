@@ -1,6 +1,6 @@
 import { UserButton } from '@clerk/nextjs'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
-import { Box, IconButton, TextField, Typography } from '@mui/material'
+import { Box, IconButton, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useState } from 'react'
 import NavigationDrawer from './NavigationDrawer'
@@ -46,20 +46,6 @@ function Header() {
                         Cookbook
                     </Typography>
                 </Link>
-                <TextField
-                    sx={{
-                        display: {
-                            xs: 'none',
-                            sm: 'block',
-                        },
-                    }}
-                    color="primary"
-                    fullWidth
-                    id="outlined-search"
-                    label="Search field"
-                    type="search"
-                    style={styles.searchField}
-                />
                 <span
                     style={{
                         display: 'flex',
@@ -106,10 +92,6 @@ const styles = {
         fontSize: '3.25rem',
         marginLeft: '40px',
         letterSpacing: '5px',
-    },
-    searchField: {
-        marginLeft: '50px',
-        marginRight: '50px',
     },
     menuButton: {
         // Add any additional styling as needed

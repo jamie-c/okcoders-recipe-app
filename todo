@@ -9,7 +9,7 @@
     - [x] Display 3 recipes.
     - [x] Add a “Find a Recipe” search field below.
     - [ ] Optionally, add a “Feeling Lucky” button.
-    - [ ] Remove the search bar from the Navbar and place it in the center of the page.
+    - [x] Remove the search bar from the Navbar and place it in the center of the page.
 
 *** TODO Create Index Pages & Routes
     - [ ] Create a page for a list of recipes sorted alphabetically (url/recipes).
