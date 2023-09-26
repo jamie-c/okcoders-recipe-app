@@ -18,6 +18,10 @@
 *** TODO App Name
     - [ ] Finalize the name of the app.
 
+*** TODO Color Palette
+    - [ ] Finalize the color palette for the app.
+    - [ ] Update the color palette in '@/lib/theme.js'.
+
 *** TODO Drawer Links
     - [ ] Add links to the drawer for “Browse Recipes,” “Browse Ingredients,” and “My Recipes.”
     - [ ] Add a link to the “Add New Recipe” page in the drawer.
