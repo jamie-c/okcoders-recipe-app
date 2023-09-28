@@ -1,3 +1,4 @@
+import FeelingHungryButton from '@/components/FeelingHungryButton'
 import SearchBar from '@/components/SearchBar'
 import {
     Box,
@@ -5,7 +6,7 @@ import {
     CardContent,
     CardMedia,
     Grid,
-    Typography
+    Typography,
 } from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -81,6 +82,7 @@ export default function Home() {
                     ))
                 )}
             </Grid>
+            <FeelingHungryButton />
         </Box>
     )
 }
