@@ -34,7 +34,7 @@ export default function Home() {
     return (
         <Box
             p={2}
-            pt={8}
+            pt={0}
             display="flex"
             flexDirection="column"
             alignItems="center"
@@ -48,7 +48,9 @@ export default function Home() {
                 gutterBottom
                 style={{
                     fontFamily: 'Comfortaa',
-                    marginTop: '100px',
+                    fontWeight: 'bold', // Add this line to make the text bold
+                    marginTop: '50px', // Adjust the value for the desired space
+                    marginBottom: '20px', // Adjust the value for the desired space
                 }}
             >
                 Featured Recipes
