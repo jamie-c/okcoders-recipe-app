@@ -33,8 +33,10 @@ export const themeOptions = {
     typography: {
       fontFamily: 'Lato',
       h1: {
-        fontFamily: 'Lato',
         fontWeight: 700,
+        color: '#006400',
+        textTransform: 'uppercase',
+        fontSize: '45px',
       },
       h5: {
         fontWeight: 700,
