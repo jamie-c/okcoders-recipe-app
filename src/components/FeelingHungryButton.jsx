@@ -1,4 +1,3 @@
-// FeelingHungryButton.jsx
 import { Button } from '@mui/material'
 import Link from 'next/link'
 import styles from '/Users/karencampbell/okcoders-recipe-app/src/styles/Home.module.css' // Import your CSS module
