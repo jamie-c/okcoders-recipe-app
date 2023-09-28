@@ -1,76 +1,50 @@
-import { UserButton } from '@clerk/nextjs'
-import MenuBookIcon from '@mui/icons-material/MenuBook'
-import { Box, IconButton, Typography } from '@mui/material'
-import Link from 'next/link'
-import { useState } from 'react'
-import NavigationDrawer from './NavigationDrawer'
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuBookIcon from '@mui/icons-material/MenuBook'; // Import MenuBookIcon
+import { UserButton } from '@clerk/nextjs'; // Import UserButton
+import NavigationDrawer from './NavigationDrawer';
+import Link from 'next/link';
 
-function Header() {
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+import { theme } from '@/lib/theme';
+
+export default function Header() {
+    const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
     const toggleDrawer = () => {
-        setIsDrawerOpen(!isDrawerOpen)
-    }
+        setIsDrawerOpen(!isDrawerOpen);
+    };
 
     const closeDrawer = () => {
-        setIsDrawerOpen(false)
-    }
+        setIsDrawerOpen(false);
+    };
 
     return (
-        <div style={styles.container}>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '0 10px',
-                    opacity: '1',
-                    zIndex: '999',
-                }}
-            >
-                <Link href="/" style={{ textDecoration: 'none' }}>
-                    <Typography
-                        sx={{
-                            fontSize: {
-                                xs: '2rem',
-                                sm: '3.25rem',
-                            },
-                        }}
-                        fontFamily={'Dosis'}
-                        color="primary"
-                        textTransform="uppercase"
-                        fontWeight="bold"
-                        letterSpacing="5px"
-                    >
-                        Cookbook
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="sticky" sx={{ top: '0', backgroundColor: 'rgba(255, 255, 255, 0.5)', backdropFilter: 'blur(10px)', zIndex: '900' }}>
+                <Toolbar>
+                    <Typography variant="h1" component="div" sx={{ flexGrow: 1 }}>
+                        <Link href="/" style={{ textDecoration: 'none', color: theme.palette.primary.main }}>Cookbook</Link>
                     </Typography>
-                </Link>
-                <span
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}
-                >
-                    {/* Toggle the drawer when MenuBookIcon is clicked */}
                     <IconButton
                         size="large"
                         edge="start"
-                        color="primary"
                         aria-label="menu"
-                        style={styles.menuButton}
-                        onClick={toggleDrawer}
+                        sx={{ mr: 2 }}
+                        onClick={toggleDrawer} // Open the drawer when MenuBookIcon is clicked
                     >
-                        <MenuBookIcon style={styles.menuIcon} />
+                        <MenuBookIcon sx={{ fontSize: '2.5rem', color: '#006400' }} />
                     </IconButton>
-
+                    <Link href="/" style={{ textDecoration: 'none' }}></Link>
                     <UserButton afterSignOutUrl="/" />
-                </span>
-            </Box>
+                </Toolbar>
+            </AppBar>
             <NavigationDrawer open={isDrawerOpen} onClose={closeDrawer} />
-        </div>
-    )
+        </Box>
+    );
 }
 
 const styles = {
@@ -85,25 +59,6 @@ const styles = {
     headerContent: {
         display: 'flex',
         alignItems: 'center',
+        width: '80vw',
     },
-    title: {
-        fontFamily: 'Dosis',
-        textTransform: 'uppercase',
-        fontSize: '3.25rem',
-        marginLeft: '40px',
-        letterSpacing: '5px',
-    },
-    menuButton: {
-        // Add any additional styling as needed
-    },
-    menuIcon: {
-        fontSize: '2.75rem',
-        // Add any additional styling as needed
-    },
-    userIcon: {
-        fontSize: '2.75rem',
-        // Add any additional styling as needed
-    },
-}
-
-export default Header
+};

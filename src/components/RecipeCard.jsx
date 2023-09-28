@@ -1,4 +1,4 @@
-import FullWidthHeaderImageLoading from '@/components/FullWidthHeaderImageLoading'
+import React from 'react';
 import {
     Card,
     CardContent,
@@ -6,23 +6,88 @@ import {
     ListItem,
     ListItemText,
     Typography,
-} from '@mui/material'
-import RecipeCardHeaderImage from './RecipeCardHeaderImage'
+    useMediaQuery,
+    useTheme,
+} from '@mui/material';
+import RecipeCardHeaderImage from './RecipeCardHeaderImage';
+import RecipeDescription from './RecipeDescription';
+import RecipeTags from './RecipeTags';
 
 function RecipeCard({ recipe, loading }) {
+    const isSmallScreen = useMediaQuery('(max-width:600px)');
+    const theme = useTheme();
+
+    const cardStyles = {
+        maxWidth: '90%',
+        margin: 'auto',
+        display: 'flex',
+        marginTop: '45px',
+        filter: 'drop-shadow(3px 3px 8px #BBB)',
+        borderRadius: '20px',
+        flexDirection: isSmallScreen ? 'column' : 'row',
+        height: isSmallScreen ? 'auto' : '80vh', // 70% of viewport height on large screens
+    };
+
+    const ingredientsStyles = {
+        flex: 1,
+        borderRight: isSmallScreen ? 'none' : '1px solid #ccc',
+        padding: '16px',
+        overflowY: 'auto',
+        marginBottom: isSmallScreen ? '20px' : '0',
+    };
+
+    const instructionsStyles = {
+        flex: 2,
+        padding: '16px',
+        marginLeft: isSmallScreen ? '0' : '30px',
+        overflowY: 'auto',
+        maxWidth: '100%', // Add max-width to the instructions container
+    };
+
+    const recipeNameStyles = {
+        fontSize: isSmallScreen ? theme.typography.h6.fontSize : theme.typography.h5.fontSize,
+    };
+
+    const recipeNameContainerStyles = {
+        display: 'flex',
+        justifyContent: 'center',
+    };
+
+    const numberedStepStyles = {
+        counterIncrement: 'step',
+        marginBottom: '10px', // Adjust the space between each step as needed
+    };
+
+    const numberedStepContentStyles = {
+        fontWeight: 'bold',
+        marginRight: '5px', // Adjust the space between the number and the step text
+    };
+
+    const instructionsTextStyles = {
+        marginTop: isSmallScreen ? '0' : '20px',
+
+    };
+
+    const RecipeDescriptionStyles = {
+        justifyContent: 'center',
+    }
+
     return (
-        <Card style={styles.card}>
+        <Card style={cardStyles}>
             {/* Ingredients */}
-            <div style={styles.ingredients}>
+            <div style={ingredientsStyles}>
                 <Typography variant="h5">Ingredients</Typography>
+                <br />
+                <RecipeTags tags={recipe.tags} />
                 <List>
                     {recipe &&
                         Array.isArray(recipe.ingredients) &&
                         recipe.ingredients.map((ingredient) => (
                             <ListItem key={ingredient._id}>
                                 <ListItemText>
-                                    {ingredient.amount} {ingredient.unit}{' '}
-                                    {ingredient.name}
+                                    <Typography style={theme.typography.body1}>
+                                        {ingredient.amount} {ingredient.unit} {ingredient.name}
+                                    </Typography>
                                 </ListItemText>
                             </ListItem>
                         ))}
@@ -30,12 +95,12 @@ function RecipeCard({ recipe, loading }) {
             </div>
 
             {/* Instructions */}
-            <CardContent style={styles.instructions}>
-                <container style={styles.recipeNameContainer}>
-                    <Typography variant="h5" style={styles.recipeName}>
+            <CardContent style={instructionsStyles}>
+                <div style={recipeNameContainerStyles}>
+                    <Typography variant="h5" style={recipeNameStyles}>
                         {recipe.name}
                     </Typography>
-                </container>
+                </div>
                 {/* Render FullWidthHeaderImageLoading if loading */}
                 {recipe.loading && (
                     <FullWidthHeaderImageLoading recipe={recipe}>
@@ -45,7 +110,7 @@ function RecipeCard({ recipe, loading }) {
                     </FullWidthHeaderImageLoading>
                 )}
 
-                {/* Render FullWidthHeaderImage if not loading */}
+                {/* Render RecipeCardHeaderImage if not loading */}
                 {!recipe.loading && (
                     <RecipeCardHeaderImage recipe={recipe} loading={loading}>
                         <Typography
@@ -65,47 +130,24 @@ function RecipeCard({ recipe, loading }) {
                         ></Typography>
                     </RecipeCardHeaderImage>
                 )}
-                {recipe.instructions.map((instruction, index) => (
-                    <p key={`${recipe._id}-instruction-${index}`}>
-                        {instruction}
-                    </p>
-                ))}
+
+                {/* Render instructions with numbered steps */}
+                <RecipeDescription style={RecipeDescriptionStyles}>
+                    {recipe.description}
+                </RecipeDescription>
+                <div style={instructionsTextStyles}>
+
+
+                    {recipe.instructions.map((instruction, index) => (
+                        <Typography key={`${recipe._id}-instruction-${index}`} style={{ ...theme.typography.body1, ...numberedStepStyles }}>
+                            <span style={numberedStepContentStyles}>{index + 1}.</span> {instruction}
+                        </Typography>
+                    ))}
+                </div>
+
             </CardContent>
         </Card>
-    )
+    );
 }
 
-const styles = {
-    card: {
-        maxWidth: '90%',
-        height: '80vh',
-        margin: 'auto',
-        display: 'flex',
-        marginTop: '45px',
-        filter: 'drop-shadow(3px 3px 8px #3ABEFF)',
-        radius: '50px',
-        padding: '20px',
-    },
-    ingredients: {
-        flex: 1,
-        borderRight: '1px solid #ccc',
-        padding: '16px',
-        overflowY: 'auto',
-    },
-    instructions: {
-        flex: 3,
-        padding: '16px',
-        marginLeft: '30px',
-
-        overflowY: 'auto',
-    },
-    recipeNameContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-    },
-    recipeName: {
-        fontSize: '30px',
-    },
-}
-
-export default RecipeCard
+export default RecipeCard;

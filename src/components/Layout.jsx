@@ -7,7 +7,7 @@ export default function Layout({ children }) {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <div className={`${dosis.className}`}>
+            <div>
                 <Header />
                 <main>{children}</main>
                 {/* <Footer /> */}
