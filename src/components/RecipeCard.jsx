@@ -16,6 +16,9 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import RecipeCardHeaderImage from './RecipeCardHeaderImage';
 import RecipeDescription from './RecipeDescription';
 import RecipeTags from './RecipeTags';
+import PrepTimeDisplay from './PrepTimeDisplay';
+import CookTimeDisplay from './CookTimeDisplay';
+import TotalTimeDisplay from './TotalTimeDisplay';
 
 function RecipeCard({ recipe, loading }) {
     const isSmallScreen = useMediaQuery('(max-width:600px)');
@@ -76,6 +79,18 @@ function RecipeCard({ recipe, loading }) {
         justifyContent: 'center',
     };
 
+    const infoBoxStyles = {
+        border: '1px dashed #006400',
+        padding: '15px',
+    };
+
+    const timeInfoStyles = {
+        display: 'flex',
+        fontSize: '15px',
+        fontStyle: 'italic',
+        justifyContent: 'space-between',
+    };
+
     const minusBtnStyles = {
         left: '53px',
         color: '#de5006',
@@ -83,14 +98,14 @@ function RecipeCard({ recipe, loading }) {
     };
     const plusBtnStyles = {
         right: '10px',
-        bottom: '40px',      
+        bottom: '40px',
         color: '#de5006',
     };
     const buttonsContainer = {
         position: 'fixed',
         top: '75vh',
         right: '0px',
-  
+
     };
     const increaseFontSize = () => {
         setFontSize((prevSize) => prevSize + 1);
@@ -106,12 +121,18 @@ function RecipeCard({ recipe, loading }) {
             <div style={ingredientsStyles}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
                 </div>
+                <div style={infoBoxStyles}>
+                    <RecipeTags tags={recipe.tags} />
+                    <div style={timeInfoStyles}>
+                        <PrepTimeDisplay recipe={recipe} />
+                        <CookTimeDisplay recipe={recipe} />
+                        <TotalTimeDisplay recipe={recipe} />
+                    </div>
+                </div>
+                <br />
                 <Typography variant="h5">
                     Ingredients
                 </Typography>
-
-                <br />
-                <RecipeTags tags={recipe.tags} />
                 <List>
                     {recipe &&
                         Array.isArray(recipe.ingredients) &&
