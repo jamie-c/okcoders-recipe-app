@@ -3,7 +3,11 @@ import { Head, Html, Main, NextScript } from 'next/document'
 export default function Document() {
     return (
         <Html lang="en">
-            <Head />
+            <Head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+                <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Mooli&family=Roboto&family=Titillium+Web&display=swap" rel="stylesheet" />
+            </Head>
             <body>
                 <Main />
                 <NextScript />

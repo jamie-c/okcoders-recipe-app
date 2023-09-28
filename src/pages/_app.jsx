@@ -4,7 +4,7 @@ import Layout from '@/components/Layout';
 import '@/styles/globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import { theme } from '@/lib/theme';
-
+import { Dosis, Inter, Titillium_Web } from 'next/font/google'
 
 export default function App({ Component, pageProps }) {
     return (

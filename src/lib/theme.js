@@ -1,8 +1,4 @@
 import { createTheme } from '@mui/material/styles'
-import { Dosis, Inter } from 'next/font/google'
-
-export const dosis = Dosis({ subsets: ['latin'] })
-export const inter = Inter({ subsets: ['latin'] })
 
 export const themeOptions = {
     palette: {
@@ -35,9 +31,16 @@ export const themeOptions = {
       },
     },
     typography: {
-      fontFamily: 'Noto Sans',
+      fontFamily: 'Lato',
       h1: {
-        fontFamily: 'Roboto Slab',
+        fontFamily: 'Lato',
+        fontWeight: 700,
+      },
+      h5: {
+        fontWeight: 700,
+      },
+      body: {
+        fontFamily: 'Roboto',
       },
     },
     props: {
