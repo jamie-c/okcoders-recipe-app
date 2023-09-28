@@ -21,24 +21,33 @@ function NavigationDrawer({ open, onClose }) {
             {/* Use Paper to control the width of the Drawer */}
             <Paper style={styles.NavigationDrawer}>
                 <List>
-                    {/* Use the navigateTo function for client-side navigation */}
+                    {/* Use the ListItem component correctly */}
                     <ListItem
-                        Button
+                        button
                         onClick={() => navigateTo('/recipe-index')}
                     >
+                        {/* Use the Button component inside ListItem */}
                         <Button>
                             <ListItemText primary="Browse Recipes" />
                         </Button>
                     </ListItem>
-                    <ListItem Button onClick={() => navigateTo('/ingredients')}>
+                    <ListItem button onClick={() => navigateTo('/ingredients')}>
                         <Button>
                             <ListItemText primary="Browse Ingredients" />
                         </Button>
                     </ListItem>
-                    <ListItem Button onClick={() => navigateTo('/my-recipes')}>
+                    <ListItem button onClick={() => navigateTo('/my-recipes')}>
                         <Button>
                             <ListItemText primary="My Recipes" />
                         </Button>
+                    </ListItem>
+                    <ListItem button onClick={() => navigateTo('/recipes')}>
+                        <Button>
+                            <ListItemText primary="Add New Recipe" />
+                        </Button>
+                    </ListItem>
+                    <ListItem button onClick={() => navigateTo('/recipes')}>
+                        {/* If this is a placeholder, you may want to add text or content */}
                     </ListItem>
                     {/* Add more navigation links as needed */}
                 </List>

@@ -8,11 +8,11 @@
 *** IN-PROGRESS Landing Page
     - [x] Display 3 recipes.
     - [x] Add a “Find a Recipe” search field below.
-    - [ ] Optionally, add a “Feeling Lucky” button.
+    - [x ] Optionally, add a “Feeling Lucky” button.
     - [x] Remove the search bar from the Navbar and place it in the center of the page.
 
 *** TODO Create Index Pages & Routes
-    - [ ] Create a page for a list of recipes sorted alphabetically (url/recipes).
+    - [x ] Create a page for a list of recipes sorted alphabetically (url/recipes).
     - [ ] Create a page for a list of ingredients sorted alphabetically (url/ingredients).
 
 *** TODO App Name
@@ -23,8 +23,8 @@
     - [ ] Update the color palette in '@/lib/theme.js'.
 
 *** TODO Drawer Links
-    - [ ] Add links to the drawer for “Browse Recipes,” “Browse Ingredients,” and “My Recipes.”
-    - [ ] Add a link to the “Add New Recipe” page in the drawer.
+    - [x] Add links to the drawer for “Browse Recipes,” “Browse Ingredients,” and “My Recipes.”
+    - [x] Add a link to the “Add New Recipe” page in the drawer.
 
 *** TODO Call to Action Component
     - [ ] Create a popup component that prompts users to create an account.
