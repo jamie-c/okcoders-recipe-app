@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import Link from 'next/link'
-import styles from '/Users/karencampbell/okcoders-recipe-app/src/styles/Home.module.css' // Import your CSS module
+import styles from '../styles/Home.module.css'
 
 const FeelingHungryButton = () => {
     return (
