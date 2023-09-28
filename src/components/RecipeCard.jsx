@@ -10,6 +10,8 @@ import {
     useTheme,
 } from '@mui/material';
 import RecipeCardHeaderImage from './RecipeCardHeaderImage';
+import RecipeDescription from './RecipeDescription';
+import RecipeTags from './RecipeTags';
 
 function RecipeCard({ recipe, loading }) {
     const isSmallScreen = useMediaQuery('(max-width:600px)');
@@ -35,7 +37,7 @@ function RecipeCard({ recipe, loading }) {
     };
 
     const instructionsStyles = {
-        flex: 3,
+        flex: 2,
         padding: '16px',
         marginLeft: isSmallScreen ? '0' : '30px',
         overflowY: 'auto',
@@ -62,15 +64,21 @@ function RecipeCard({ recipe, loading }) {
     };
 
     const instructionsTextStyles = {
-            marginTop: isSmallScreen ? '0' : '20px',
+        marginTop: isSmallScreen ? '0' : '20px',
 
     };
+
+    const RecipeDescriptionStyles = {
+        justifyContent: 'center',
+    }
 
     return (
         <Card style={cardStyles}>
             {/* Ingredients */}
             <div style={ingredientsStyles}>
                 <Typography variant="h5">Ingredients</Typography>
+                <br />
+                <RecipeTags tags={recipe.tags} />
                 <List>
                     {recipe &&
                         Array.isArray(recipe.ingredients) &&
@@ -124,7 +132,12 @@ function RecipeCard({ recipe, loading }) {
                 )}
 
                 {/* Render instructions with numbered steps */}
+                <RecipeDescription style={RecipeDescriptionStyles}>
+                    {recipe.description}
+                </RecipeDescription>
                 <div style={instructionsTextStyles}>
+
+
                     {recipe.instructions.map((instruction, index) => (
                         <Typography key={`${recipe._id}-instruction-${index}`} style={{ ...theme.typography.body1, ...numberedStepStyles }}>
                             <span style={numberedStepContentStyles}>{index + 1}.</span> {instruction}
