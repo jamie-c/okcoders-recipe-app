@@ -77,7 +77,7 @@ export default function Recipe() {
         <div>
             {loading && (
                 <>
-                    <FullWidthHeaderImageLoading recipe={recipe}>
+                    {/* <FullWidthHeaderImageLoading recipe={recipe}>
                         <Typography variant="h1" color="white" width="75%">
                             <Skeleton variant="text" width="100%" />
                         </Typography>
@@ -91,7 +91,7 @@ export default function Recipe() {
                             <Skeleton variant="text" width="100%" />
                             <Skeleton variant="text" width="100%" />
                         </Typography>
-                    </Stack>
+                    </Stack> */}
                 </>
             )}
             {!recipe?._id && !loading && (
@@ -139,7 +139,6 @@ export default function Recipe() {
                             </Typography>
                         </FullWidthHeaderImage>
                         <Stack sx={{ px: { xs: 2, sm: 8, md: 20 } }}>
-                            <RecipeTitle>{recipe.name}</RecipeTitle>
                             <RecipeDescription>
                                 {recipe.description}
                             </RecipeDescription>

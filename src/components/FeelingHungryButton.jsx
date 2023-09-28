@@ -1,5 +1,3 @@
-// components/FeelingHungryButton.js
-
 import { Button } from '@mui/material'
 import Link from 'next/link'
 
