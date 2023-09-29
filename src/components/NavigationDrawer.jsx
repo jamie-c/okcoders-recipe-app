@@ -45,7 +45,7 @@ function NavigationDrawer({ open, onClose }) {
                         </Link>
                     </ListItem>
                     <ListItem Button onClick={onClose}>
-                        <Link href="/recipes">
+                        <Link href="/recipes/add">
                             <Button>
                                 <ListItemText
                                     primary={
