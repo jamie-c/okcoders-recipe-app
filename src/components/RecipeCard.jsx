@@ -13,6 +13,9 @@ import {
 
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'; // Import the favorite icons
+
 import RecipeCardHeaderImage from './RecipeCardHeaderImage';
 import RecipeDescription from './RecipeDescription';
 import RecipeTags from './RecipeTags';
@@ -23,7 +26,8 @@ import TotalTimeDisplay from './TotalTimeDisplay';
 function RecipeCard({ recipe, loading }) {
     const isSmallScreen = useMediaQuery('(max-width:600px)');
     const theme = useTheme();
-    const [fontSize, setFontSize] = useState(16); // Initial font size (you can change it)
+    const [fontSize, setFontSize] = useState(16);
+    const [isFavorited, setIsFavorited] = useState(false); // Track favorited state
 
     const cardStyles = {
         maxWidth: '90%',
@@ -114,6 +118,9 @@ function RecipeCard({ recipe, loading }) {
     const decreaseFontSize = () => {
         setFontSize((prevSize) => Math.max(prevSize - 1, 10)); // Ensure font size doesn't go below 10
     };
+    const toggleFavorite = () => {
+        setIsFavorited(!isFavorited); // Toggle the favorite state
+    };
 
     return (
         <Card style={cardStyles}>
@@ -154,6 +161,12 @@ function RecipeCard({ recipe, loading }) {
                     <Typography variant="h5" style={recipeNameStyles}>
                         {recipe.name}
                     </Typography>
+                    {/* Render the favorite icon based on isFavorited state */}
+                    {isFavorited ? (
+                        <FavoriteIcon style={{ color: 'red', cursor: 'pointer', fontSize: '28px', marginLeft: '5px'}} onClick={toggleFavorite} />
+                    ) : (
+                        <FavoriteBorderIcon style={{ color: 'red', cursor: 'pointer', fontSize: '28px', marginLeft: '5px' }} onClick={toggleFavorite} />
+                    )}
                 </div>
                 {/* Render FullWidthHeaderImageLoading if loading */}
                 {recipe.loading && (
@@ -205,7 +218,6 @@ function RecipeCard({ recipe, loading }) {
                         <AddIcon />
                     </Button>
                 </div>
-
             </CardContent>
         </Card>
     );
