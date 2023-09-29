@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 export default function RecipeForm({ recipe, edit }) {
     const router = useRouter()
     const { isLoaded, userId, sessionId, getToken } = useAuth();
-    const [formData, setFormData] = useState(
+        const [formData, setFormData] = useState(
         recipe || {
             name: '',
             description: '',
@@ -19,7 +19,7 @@ export default function RecipeForm({ recipe, edit }) {
             servings: { amount: '', unit: '' },
             imageUrl: '',
             tags: [],
-            createdBy: '',
+            userId: userId,
         }
     )
     const [dbIngredients, setDbIngredients] = useState([])
@@ -30,6 +30,14 @@ export default function RecipeForm({ recipe, edit }) {
     const [ingPickerIsVisible, setIngPickerIsVisible] = useState([false])
     const [message, setMessage] = useState('')
     const [addIngBtnDisabled, setAddIngBtnDisabled] = useState(true)
+
+    useEffect(() => {
+        if (!userId) return
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            userId: userId,
+        }))
+    }, [userId])
 
     useEffect(() => {
         console.log(formData)
