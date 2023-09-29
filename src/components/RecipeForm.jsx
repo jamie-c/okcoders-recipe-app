@@ -1,7 +1,7 @@
 import { useAuth } from "@clerk/nextjs";
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import ClearSharpIcon from '@mui/icons-material/ClearSharp';
-import { Button, Skeleton, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Skeleton, Stack, TextField, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -28,6 +28,34 @@ export default function RecipeForm({ recipe, edit }) {
     const [loading, setLoading] = useState(false)
     const [isEditing, setIsEditing] = useState(edit || false)
     const [ingPickerIsVisible, setIngPickerIsVisible] = useState([false])
+    const [message, setMessage] = useState('')
+    const [addIngBtnDisabled, setAddIngBtnDisabled] = useState(true)
+
+    useEffect(() => {
+        console.log(formData)
+        handleAddIngButtonState()
+    }, [formData])
+
+    const closeIngredientPicker = (index) => {
+        setFilteredIngredients((prevFilteredIngredients) => {
+            const filtered = [...prevFilteredIngredients]
+            filtered[index] = []
+            return filtered
+        })
+        setIngPickerIsVisible((prevData) => {
+            prevData[index] = false
+            return prevData
+        })
+    }
+
+    const handleAddIngButtonState = () => {
+        const lastIng = formData.ingredients[formData.ingredients.length - 1]
+        if (lastIng.name.length > 0) {
+            setAddIngBtnDisabled(false)
+        } else {
+            setAddIngBtnDisabled(true)
+        }
+    }
 
     // Function to add a new step
     const addStep = () => {
@@ -88,19 +116,19 @@ export default function RecipeForm({ recipe, edit }) {
     // HANDLE TYPING INTO INGREDIENT INPUT
     const handleIngredientChange = (event, index) => {
         const { name, value } = event.target
-        if (value.length > 0) {
-            setIngPickerIsVisible((prevData) => {
-                prevData[index] = true
-                return prevData
-            })
-        } else if (value.length === 0) {
-            setIngPickerIsVisible((prevData) => {
-                prevData[index] = false
-                return prevData
-            })
-        }
         if (name === 'name') {
-            filterIngredients(value, index)
+            if (value.length > 0) {
+                setIngPickerIsVisible((prevData) => {
+                    prevData[index] = true
+                    return prevData
+                })
+            } else if (value.length === 0) {
+                setIngPickerIsVisible((prevData) => {
+                    prevData[index] = false
+                    return prevData
+                })
+            }
+                filterIngredients(value, index)
         }
 
         setFormData((prevFormData) => {
@@ -120,21 +148,24 @@ export default function RecipeForm({ recipe, edit }) {
     const handleAddIngredient = (event, index) => {
         // prevent form submission
         event.preventDefault()
-        // change cursor focus to the next item
-        const nextInput = document.getElementById(
-            `ingredient-name-${index + 1}`
-        )
-        if (nextInput) {
-            nextInput.focus()
+        // if the last ingredient has a name, add a new ingredient
+        if (formData.ingredients[formData.ingredients.length - 1].name) {
+            // change cursor focus to the next item
+            const nextInput = document.getElementById(
+                `ingredient-name-${index + 1}`
+            )
+            if (nextInput) {
+                nextInput.focus()
+            }
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                ingredients: [
+                    ...prevFormData.ingredients,
+                    { name: '', amount: '', unit: '' },
+                ],
+            }))
+            setIngPickerIsVisible((prevData) => [...prevData, false])
         }
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            ingredients: [
-                ...prevFormData.ingredients,
-                { name: '', amount: '', unit: '' },
-            ],
-        }))
-        setIngPickerIsVisible((prevData) => [...prevData, false])
     }
 
     // HANDLE CLICKING THE REMOVE INGREDIENT BUTTON
@@ -198,9 +229,16 @@ export default function RecipeForm({ recipe, edit }) {
                 })
                 if (foundIngredients.length === 0) {
                     setLoading(false)
-                    return setFdcIngredients([])
+                    setFdcIngredients([])
+                    setMessage('No ingredients found')
+                    return
                 }
                 setFdcIngredients(foundIngredients)
+                setFilteredIngredients((prevFilteredIngredients) => {
+                    const filtered = [...prevFilteredIngredients]
+                    filtered[index] = foundIngredients
+                    return filtered
+                })
             } catch (error) {
                 setLoading(false)
                 console.error(error)
@@ -279,7 +317,6 @@ export default function RecipeForm({ recipe, edit }) {
                     ingredients,
                 }
             })
-            console.log(formData.ingredients[index])
         }
 
         setFormData((prevFormData) => {
@@ -294,15 +331,7 @@ export default function RecipeForm({ recipe, edit }) {
                 ingredients,
             }
         })
-        setFilteredIngredients((prevFilteredIngredients) => {
-            const filtered = [...prevFilteredIngredients]
-            filtered[index] = []
-            return filtered
-        })
-        setIngPickerIsVisible((prevData) => {
-            prevData[index] = false
-            return prevData
-        })
+        closeIngredientPicker(index)
     }
 
     const IngredientPicker = ({ index }) => {
@@ -314,6 +343,7 @@ export default function RecipeForm({ recipe, edit }) {
                 justifyContent="left"
                 key={`searchList-${index}`}
                 px={1}
+                pt={1}
                 position="absolute"
                 top="100%"
                 left={0}
@@ -328,7 +358,23 @@ export default function RecipeForm({ recipe, edit }) {
                     boxShadow: '0 0 10px rgba(0,0,0,0.5)',
                 }}
             >
-                Select an ingredient from the list:
+                <Box
+                    position="absolute"
+                    top="0"
+                    right="0"
+                    px={1}
+                    py={0.5}
+                    sx={{
+                        borderRadius: '0 6px 0 0',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            color: 'red',
+                            bgcolor: 'rgba(255,255,255,0.5)',
+                        },
+                    }}
+                    onClick={() => closeIngredientPicker(index)}
+                >X</Box>
+                or select an ingredient from the list:
                 {loading && (
                     <>
                         <Skeleton
@@ -370,6 +416,9 @@ export default function RecipeForm({ recipe, edit }) {
                             </Button>
                         )
                     })}
+                {filteredIng?.length === 0 && !loading && (
+                    <Typography>{message}</Typography>
+                )}
             </Stack>
         )
     }
@@ -496,6 +545,14 @@ export default function RecipeForm({ recipe, edit }) {
                                     onChange={(event) =>
                                         handleIngredientChange(event, index)
                                     }
+                                    onKeyDown={(event) => {
+                                            if (
+                                                event.key === 'Enter' ||
+                                                event.key === 'Tab'
+                                            ) {
+                                                closeIngredientPicker(index)
+                                            }
+                                        }}
                                     required
                                 />
                                 <Stack
@@ -592,6 +649,7 @@ export default function RecipeForm({ recipe, edit }) {
                             px: 4,
                             py: 2,
                         }}
+                        disabled={addIngBtnDisabled}
                         variant="contained"
                         type="button"
                         onClick={handleAddIngredient}
