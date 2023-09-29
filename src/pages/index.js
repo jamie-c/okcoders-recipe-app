@@ -42,12 +42,22 @@ export default function Home() {
             minHeight="100vh"
             position="relative"
         >
-            <SearchBar />
+            <Box
+                display="flex"
+                alignItems="center"
+                flexDirection="column"
+            >
+                <img src="/cookbookio icon.png" alt="Cookbookio Icon" style={{ width: '60px' }} />
+                <Typography variant='h1'>cookbook.io</Typography>
+            </Box>
+            <FeelingHungryButton />
+            <box style={{ minWidth: '700px', margin: '50px' }}>
+                <SearchBar />
+            </box>
             <Typography
                 variant="h3"
                 gutterBottom
                 style={{
-                    fontFamily: 'Comfortaa',
                     fontWeight: 'bold', // Add this line to make the text bold
                     marginTop: '50px', // Adjust the value for the desired space
                     marginBottom: '20px', // Adjust the value for the desired space
@@ -84,7 +94,6 @@ export default function Home() {
                     ))
                 )}
             </Grid>
-            <FeelingHungryButton />
         </Box>
     )
 }
