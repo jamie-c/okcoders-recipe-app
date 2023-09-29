@@ -229,14 +229,3 @@
         transform: rotate(0deg);
     }
 }
-
-/* Home.module.css */
-
-.FeelingHungryButtonWrapper {
-    margin-top: 40px; /* Adjust the value as needed */
-}
-
-/* You can also style the button directly if needed */
-.FeelingHungryButton {
-    /* Add styles for the button */
-}
