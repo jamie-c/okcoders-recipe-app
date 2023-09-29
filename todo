@@ -8,7 +8,7 @@
 *** IN-PROGRESS Landing Page
     - [x] Display 3 recipes.
     - [x] Add a “Find a Recipe” search field below.
-    - [x ] Optionally, add a “Feeling Lucky” button.
+    - [x] Optionally, add a “Feeling Lucky” button.
     - [x] Remove the search bar from the Navbar and place it in the center of the page.
 
 *** TODO Create Index Pages & Routes
@@ -19,8 +19,8 @@
     - [ ] Finalize the name of the app.
 
 *** TODO Color Palette
-    - [ ] Finalize the color palette for the app.
-    - [ ] Update the color palette in '@/lib/theme.js'.
+    - [x] Finalize the color palette for the app.
+    - [x] Update the color palette in '@/lib/theme.js'.
 
 *** TODO Drawer Links
     - [x] Add links to the drawer for “Browse Recipes,” “Browse Ingredients,” and “My Recipes.”
@@ -45,12 +45,12 @@
     - [ ] Add 12 recipes to database.
 
 *** TODO Move Add New Recipe Form to /recipes/add
-    - [ ] Move the “Add New Recipe” form to the /recipes/add page.
-    - [ ] Remove the “Add New Recipe” form from the /recipes page.
+    - [x] Move the “Add New Recipe” form to the /recipes/add page.
+    - [x] Remove the “Add New Recipe” form from the /recipes page.
 
 *** IN-PROGRESS Associate User IDs with Recipes:
     - [x] Add userId to recipe model.
-    - [ ] Ensure that each recipe in the MongoDB database is associated with a user ID to track which user created the recipe or favorited it. You may need to update the recipe schema to include a field for the user ID.
+    - [x] Ensure that each recipe in the MongoDB database is associated with a user ID to track which user created the recipe or favorited it. You may need to update the recipe schema to include a field for the user ID.
 
 *** TODO Build ‘Find Recipes by User ID’ Function
     - [ ] Implement a function in the MongoDB database that allows users to find all their recipes once they are logged in.

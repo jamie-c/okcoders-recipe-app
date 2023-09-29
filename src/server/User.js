@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
     // [] TODO: Add the user schema here
     // [] TODO: determine if addedRecipes should exist on UserSchema
-    name: {
+    userId: {
         type: String,
         required: true,
     },
     likedRecipes: {
         type: [String],
-        required: true,
+        required: false,
     },
 });
 

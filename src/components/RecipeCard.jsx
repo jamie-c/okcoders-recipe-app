@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import {
+    Button,
     Card,
     CardContent,
     List,
@@ -7,20 +7,20 @@ import {
     ListItemText,
     Typography,
     useMediaQuery,
-    useTheme,
-    Button,
+    useTheme
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from '@mui/icons-material/Favorite'; // Import the favorite icons
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'; // Import the favorite icons
+import RemoveIcon from '@mui/icons-material/Remove';
 
+import CookTimeDisplay from './CookTimeDisplay';
+import PrepTimeDisplay from './PrepTimeDisplay';
 import RecipeCardHeaderImage from './RecipeCardHeaderImage';
 import RecipeDescription from './RecipeDescription';
 import RecipeTags from './RecipeTags';
-import PrepTimeDisplay from './PrepTimeDisplay';
-import CookTimeDisplay from './CookTimeDisplay';
 import TotalTimeDisplay from './TotalTimeDisplay';
 
 function RecipeCard({ recipe, loading }) {
@@ -28,6 +28,7 @@ function RecipeCard({ recipe, loading }) {
     const theme = useTheme();
     const [fontSize, setFontSize] = useState(16);
     const [isFavorited, setIsFavorited] = useState(false); // Track favorited state
+    const [updatingFavorites, setUpdatingFavorites] = useState(false); // Track whether favorites are being updated
 
     const cardStyles = {
         maxWidth: '90%',
@@ -118,8 +119,57 @@ function RecipeCard({ recipe, loading }) {
     const decreaseFontSize = () => {
         setFontSize((prevSize) => Math.max(prevSize - 1, 10)); // Ensure font size doesn't go below 10
     };
-    const toggleFavorite = () => {
-        setIsFavorited(!isFavorited); // Toggle the favorite state
+    const addFavorite = () => {
+        setIsFavorited(true); // Toggle the isFavorited state (true/false
+        updateDb('true');
+    };
+    const remFavorite = () => {
+        setIsFavorited(false); // Toggle the isFavorited state (true/false
+        updateDb('false');
+    };
+
+    const updateFavoritedState = (userFavorites, id) => {
+        if (userFavorites.includes(id)) {
+            setIsFavorited(true);
+        } else { 
+            setIsFavorited(false);
+        }
+    }
+
+    // Fetch the user's favorites array from the API
+    const fetchAndUpdateUserFavorites = async () => {
+        const userData = await fetch('/api/users/favorite-recipes', {});
+        const userJson = await userData.json();
+        const userFavorites = userJson.likedRecipes;
+        updateFavoritedState(userFavorites, recipe._id);
+        return;
+    };
+
+    // Update the user's favorites array in the API when the isFavorited state changes
+    const updateUserFavorites = async (add) => {
+        const userData = await fetch('/api/users/favorite-recipes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Liked-Recipe-Id': recipe._id,
+                'add': add
+            },
+        });
+        const userJson = await userData.json();
+        const userFavorites = userJson.likedRecipes;
+        return userFavorites
+    };
+
+    // Fetch the user's favorites array from the API on initial render
+    useEffect(() => {
+        // Set the initial favorite state based on the user's favorites array as returned from the API
+        fetchAndUpdateUserFavorites();
+    }, []);
+
+    const updateDb = (add) => {
+        setUpdatingFavorites(true); // Set the updatingFavorites state to true
+        updateUserFavorites(add); // Update the user's favorites array in the API
+        setUpdatingFavorites(false); // Set the updatingFavorites state to false
     };
 
     return (
@@ -163,9 +213,9 @@ function RecipeCard({ recipe, loading }) {
                     </Typography>
                     {/* Render the favorite icon based on isFavorited state */}
                     {isFavorited ? (
-                        <FavoriteIcon style={{ color: 'red', cursor: 'pointer', fontSize: '28px', marginLeft: '5px'}} onClick={toggleFavorite} />
+                        <FavoriteIcon style={{ color: 'red', cursor: 'pointer', fontSize: '28px', marginLeft: '5px'}} onClick={remFavorite} />
                     ) : (
-                        <FavoriteBorderIcon style={{ color: 'red', cursor: 'pointer', fontSize: '28px', marginLeft: '5px' }} onClick={toggleFavorite} />
+                        <FavoriteBorderIcon style={{ color: 'red', cursor: 'pointer', fontSize: '28px', marginLeft: '5px' }} onClick={addFavorite} />
                     )}
                 </div>
                 {/* Render FullWidthHeaderImageLoading if loading */}
