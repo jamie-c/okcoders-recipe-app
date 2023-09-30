@@ -22,7 +22,7 @@ export default function Recipes() {
         fetchRecipes()
     }, [])
     return (
-    <Box
+        <Box
             p={2}
             pt={0}
             display="flex"
@@ -32,18 +32,6 @@ export default function Recipes() {
             minHeight="100vh"
             position="relative"
         >
-            <Typography
-                variant="h3"
-                gutterBottom
-                style={{
-                    fontFamily: 'Comfortaa',
-                    fontWeight: 'bold', // Add this line to make the text bold
-                    marginTop: '50px', // Adjust the value for the desired space
-                    marginBottom: '20px', // Adjust the value for the desired space
-                }}
-            >
-                Featured Recipes
-            </Typography>
             <Grid container spacing={2}>
                 {loading ? (
                     <Typography>Loading...</Typography>
@@ -58,14 +46,17 @@ export default function Recipes() {
                                     alt={recipe.name}
                                 />
                                 <CardContent>
-                                    <Typography
-                                        variant="h5"
-                                        style={{ fontFamily: 'Comfortaa' }}
-                                    >
-                                        {recipe.name}
-                                    </Typography>
-                                    <Link href={`/recipes/${recipe._id}`}>
-                                        View Recipe
+                                    <Link href={`/recipes/${recipe._id}`} passHref style={{ textDecoration: 'none' }}>
+                                        <Typography
+                                            variant="h5"
+                                            style={{
+                                                color: '#006400',
+                                                textDecoration: 'none', // Remove underlines
+                                                cursor: 'pointer', // Show pointer cursor on hover
+                                            }}
+                                        >
+                                            {recipe.name}
+                                        </Typography>
                                     </Link>
                                 </CardContent>
                             </Card>
@@ -74,5 +65,5 @@ export default function Recipes() {
                 )}
             </Grid>
         </Box>
-            )
+    )
 }
