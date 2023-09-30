@@ -43,12 +43,28 @@ export default function Home() {
             position="relative"
         >
             <Box
+                mt={4}
                 display="flex"
                 alignItems="center"
                 flexDirection="column"
             >
-                <img src="/cookbookio icon.png" alt="Cookbookio Icon" style={{ width: '60px' }} />
-                <Typography variant='h1'>
+                <img
+                    src="/cookbookio icon.png"
+                    alt="Cookbookio Icon"
+                    style={{ width: '60px' }}
+                />
+                <Typography
+                    sx={{
+                        fontSize: {
+                            xs: '1.5rem',
+                            sm: '2rem',
+                            md: '2.5rem',
+                            lg: '3rem',
+                            xl: '3.5rem',
+                        },
+                    }}
+                    variant="h1"
+                >
                     cookbook.io
                 </Typography>
             </Box>
@@ -73,7 +89,8 @@ export default function Home() {
                     alignItems: 'center',
                     flexDirection: 'column',
                     textAlign: 'center',
-                }}>
+                }}
+            >
                 <Typography
                     variant="h2"
                     gutterBottom
@@ -99,7 +116,11 @@ export default function Home() {
                                         alt={recipe.name}
                                     />
                                     <CardContent>
-                                        <Link href={`/recipes/${recipe._id}`} passHref style={{ textDecoration: 'none' }}>
+                                        <Link
+                                            href={`/recipes/${recipe._id}`}
+                                            passHref
+                                            style={{ textDecoration: 'none' }}
+                                        >
                                             <Typography
                                                 variant="h5"
                                                 style={{

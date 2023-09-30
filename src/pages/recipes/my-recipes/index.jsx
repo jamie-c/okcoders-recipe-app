@@ -1,9 +1,16 @@
-import CheckIcon from '@mui/icons-material/Check';
-import { Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
-import ToggleButton from '@mui/material/ToggleButton';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-
+import CheckIcon from '@mui/icons-material/Check'
+import {
+    Box,
+    Card,
+    CardContent,
+    CardMedia,
+    Grid,
+    Stack,
+    Typography,
+} from '@mui/material'
+import ToggleButton from '@mui/material/ToggleButton'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default function Recipes() {
     const [createdRecipes, setCreatedRecipes] = useState([''])
@@ -11,8 +18,8 @@ export default function Recipes() {
     const [allRecipes, setAllRecipes] = useState([''])
     const [displayedRecipes, setDisplayedRecipes] = useState('all')
     const [loading, setLoading] = useState(true)
-    const [createdSelected, setCreatedSelected] = useState(true);
-    const [likedSelected, setLikedSelected] = useState(true);
+    const [createdSelected, setCreatedSelected] = useState(true)
+    const [likedSelected, setLikedSelected] = useState(true)
 
     const fetchCreatedRecipes = async () => {
         setLoading(true)
@@ -59,7 +66,9 @@ export default function Recipes() {
         const allRecipes = [...createdRecipes]
         if (likedRecipes.length > 0) {
             likedRecipes.forEach((likedRecipe) => {
-                if (!allRecipes.find((recipe) => recipe._id === likedRecipe._id)) {
+                if (
+                    !allRecipes.find((recipe) => recipe._id === likedRecipe._id)
+                ) {
                     allRecipes.push(likedRecipe)
                 }
             })
@@ -86,13 +95,18 @@ export default function Recipes() {
             >
                 My Recipes
             </Typography>
-            <Stack direction="row" gap={1} alignItems="center" my={8}>
+            <Stack
+                sx={{ flexDirection: { xs: 'column', sm: 'row' } }}
+                gap={1}
+                alignItems="center"
+                my={8}
+            >
                 <ToggleButton
                     value="check"
                     selected={createdSelected}
                     onChange={() => {
-                        setCreatedSelected(!createdSelected);
-                        setDisplayedRecipes('created');
+                        setCreatedSelected(!createdSelected)
+                        setDisplayedRecipes('created')
                     }}
                 >
                     <CheckIcon /> Show Created Recipes
@@ -102,8 +116,8 @@ export default function Recipes() {
                     value="check"
                     selected={likedSelected}
                     onChange={() => {
-                        setLikedSelected(!likedSelected);
-                        setDisplayedRecipes('liked');
+                        setLikedSelected(!likedSelected)
+                        setDisplayedRecipes('liked')
                     }}
                 >
                     <CheckIcon /> Show Liked Recipes
@@ -111,10 +125,8 @@ export default function Recipes() {
             </Stack>
 
             <Grid container spacing={2}>
-                {loading && (
-                    <Typography>Loading...</Typography>
-                )}
-                {displayedRecipes === 'all' && (
+                {loading && <Typography>Loading...</Typography>}
+                {displayedRecipes === 'all' &&
                     allRecipes.map((recipe) => (
                         <Grid item xs={12} sm={4} key={recipe._id}>
                             <Card style={{ height: '100%' }}>
@@ -141,9 +153,8 @@ export default function Recipes() {
                                 </CardContent>
                             </Card>
                         </Grid>
-                    ))
-                )}
-                {displayedRecipes === 'created' && (
+                    ))}
+                {displayedRecipes === 'created' &&
                     createdRecipes.map((recipe) => (
                         <Grid item xs={12} sm={4} key={recipe._id}>
                             <Card style={{ height: '100%' }}>
@@ -166,8 +177,7 @@ export default function Recipes() {
                                 </CardContent>
                             </Card>
                         </Grid>
-                    ))
-                )}
+                    ))}
                 {displayedRecipes === 'liked' &&
                     likedRecipes.map((recipe) => (
                         <Grid item xs={12} sm={4} key={recipe._id}>
@@ -191,8 +201,7 @@ export default function Recipes() {
                                 </CardContent>
                             </Card>
                         </Grid>
-                    ))
-                }
+                    ))}
             </Grid>
         </Box>
     )
