@@ -39,7 +39,7 @@ export default function Home() {
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            minHeight="100vh"
+            minHeight="90vh"
             position="relative"
         >
             <Box
@@ -48,52 +48,76 @@ export default function Home() {
                 flexDirection="column"
             >
                 <img src="/cookbookio icon.png" alt="Cookbookio Icon" style={{ width: '60px' }} />
-                <Typography variant='h1'>cookbook.io</Typography>
+                <Typography variant='h1'>
+                    cookbook.io
+                </Typography>
             </Box>
             <FeelingHungryButton />
-            <box style={{ minWidth: '700px', margin: '50px' }}>
-                <SearchBar />
-            </box>
-            <Typography
-                variant="h3"
-                gutterBottom
+            <Box
                 style={{
-                    fontWeight: 'bold', // Add this line to make the text bold
-                    marginTop: '50px', // Adjust the value for the desired space
-                    marginBottom: '20px', // Adjust the value for the desired space
+                    marginTop: '50px',
+                    display: 'flex',
+                    minWidth: '50%',
                 }}
             >
-                Featured Recipes
-            </Typography>
-            <Grid container spacing={2}>
-                {loading ? (
-                    <Typography>Loading...</Typography>
-                ) : (
-                    recipes.slice(0, 3).map((recipe) => (
-                        <Grid item xs={12} sm={4} key={recipe._id}>
-                            <Card style={{ height: '100%' }}>
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={recipe.imageUrl}
-                                    alt={recipe.name}
-                                />
-                                <CardContent>
-                                    <Typography
-                                        variant="h5"
-                                        style={{ fontFamily: 'Comfortaa' }}
-                                    >
-                                        {recipe.name}
-                                    </Typography>
-                                    <Link href={`/recipes/${recipe._id}`}>
-                                        View Recipe
-                                    </Link>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    ))
-                )}
-            </Grid>
+                <SearchBar />
+            </Box>
+            <box
+                style={{
+                    display: 'flex',
+                    minWidth: '80%',
+                    margin: '50px',
+                    backgroundColor: '#F0F0F0',
+                    padding: '20px',
+                    borderRadius: '10px',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    textAlign: 'center',
+                }}>
+                <Typography
+                    variant="h2"
+                    gutterBottom
+                    style={{
+                        fontSize: '30px',
+                        fontWeight: 'bold',
+                        marginBottom: '20px',
+                    }}
+                >
+                    Featured Recipes
+                </Typography>
+                <Grid container spacing={2}>
+                    {loading ? (
+                        <Typography>Loading...</Typography>
+                    ) : (
+                        recipes.slice(0, 3).map((recipe) => (
+                            <Grid item xs={12} sm={4} key={recipe._id}>
+                                <Card style={{ height: '100%' }}>
+                                    <CardMedia
+                                        component="img"
+                                        height="140"
+                                        image={recipe.imageUrl}
+                                        alt={recipe.name}
+                                    />
+                                    <CardContent>
+                                        <Link href={`/recipes/${recipe._id}`} passHref style={{ textDecoration: 'none' }}>
+                                            <Typography
+                                                variant="h5"
+                                                style={{
+                                                    color: '#341900',
+                                                    textDecoration: 'none',
+                                                    cursor: 'pointer',
+                                                }}
+                                            >
+                                                {recipe.name}
+                                            </Typography>
+                                        </Link>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))
+                    )}
+                </Grid>
+            </box>
         </Box>
     )
 }
