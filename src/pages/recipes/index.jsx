@@ -1,4 +1,11 @@
-import { Box, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import {
+    Box,
+    Card,
+    CardContent,
+    CardMedia,
+    Grid,
+    Typography,
+} from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -32,6 +39,16 @@ export default function Recipes() {
             minHeight="100vh"
             position="relative"
         >
+            <Typography
+                m={5}
+                variant="h3"
+                style={{
+                    fontWeight: 'bold', // Add this line to make the text bold
+                }}
+            >
+                All Recipes
+            </Typography>
+
             <Grid container spacing={2}>
                 {loading ? (
                     <Typography>Loading...</Typography>
@@ -46,7 +63,11 @@ export default function Recipes() {
                                     alt={recipe.name}
                                 />
                                 <CardContent>
-                                    <Link href={`/recipes/${recipe._id}`} passHref style={{ textDecoration: 'none' }}>
+                                    <Link
+                                        href={`/recipes/${recipe._id}`}
+                                        passHref
+                                        style={{ textDecoration: 'none' }}
+                                    >
                                         <Typography
                                             variant="h5"
                                             style={{

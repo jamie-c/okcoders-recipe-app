@@ -88,6 +88,7 @@ export default function Recipes() {
             position="relative"
         >
             <Typography
+                mt={8}
                 variant="h3"
                 style={{
                     fontWeight: 'bold', // Add this line to make the text bold

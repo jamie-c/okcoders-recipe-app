@@ -37,12 +37,17 @@ export const themeOptions = {
             color: '#006400',
             textTransform: 'uppercase',
             fontSize: '70px',
-            fontFamily: 'Young Serif'
+            fontFamily: 'Young Serif',
         },
         h2: {
             fontWeight: 700,
             color: '#341900',
             fontSize: '45px',
+        },
+        h3: {
+            fontWeight: 700,
+            color: '#341900',
+            fontSize: '30px',
         },
         h5: {
             fontWeight: 700,
