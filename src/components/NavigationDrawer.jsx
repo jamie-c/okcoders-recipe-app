@@ -14,7 +14,12 @@ function NavigationDrawer({ open, onClose }) {
     return (
         <Drawer anchor="right" open={open} onClose={onClose}>
             {/* Use Paper to control the width of the Drawer */}
-            <Paper style={styles.NavigationDrawer}>
+            <Paper
+                sx={{
+                    width: { xs: '100%', md: '400px' },
+                }}
+                style={styles.NavigationDrawer}
+            >
                 <List>
                     {/* Use the Button component for clickable items */}
                     <ListItem Button onClick={onClose}>
@@ -107,7 +112,6 @@ function NavigationDrawer({ open, onClose }) {
 
 const styles = {
     NavigationDrawer: {
-        width: '400px', // Adjust the width as needed
         height: '100vh',
     },
     listItemText: {
