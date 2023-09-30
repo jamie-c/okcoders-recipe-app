@@ -7,9 +7,6 @@
         "plugin:react-hooks/recommended",
         "prettier"
     ],
-    "editor.codeActionsOnSave": {
-        "source.fixAll": true
-    },
     "editor.formatOnSave": true,
     "eslint.format.enable": true,
     "parser": "@babel/eslint-parser",
