@@ -137,18 +137,21 @@ export default function Recipes() {
                                     alt={recipe.name}
                                 />
                                 <CardContent>
-                                    <Typography
-                                        variant="h5"
-                                        style={{
-                                            color: '#006400',
-                                            textDecoration: 'none',
-                                            cursor: 'pointer',
-                                        }}
+                                    <Link
+                                        href={`/recipes/${recipe._id}`}
+                                        passHref
+                                        style={{ textDecoration: 'none' }}
                                     >
-                                        {recipe.name}
-                                    </Typography>
-                                    <Link href={`/recipes/${recipe._id}`}>
-                                        View Recipe
+                                        <Typography
+                                            variant="h5"
+                                            style={{
+                                                color: '#341900',
+                                                textDecoration: 'none',
+                                                cursor: 'pointer',
+                                            }}
+                                        >
+                                            {recipe.name}
+                                        </Typography>
                                     </Link>
                                 </CardContent>
                             </Card>
@@ -165,14 +168,21 @@ export default function Recipes() {
                                     alt={recipe.name}
                                 />
                                 <CardContent>
-                                    <Typography
-                                        variant="h5"
-                                        style={{ fontFamily: 'Comfortaa' }}
+                                    <Link
+                                        href={`/recipes/${recipe._id}`}
+                                        passHref
+                                        style={{ textDecoration: 'none' }}
                                     >
-                                        {recipe.name}
-                                    </Typography>
-                                    <Link href={`/recipes/${recipe._id}`}>
-                                        View Recipe
+                                        <Typography
+                                            variant="h5"
+                                            style={{
+                                                color: '#341900',
+                                                textDecoration: 'none',
+                                                cursor: 'pointer',
+                                            }}
+                                        >
+                                            {recipe.name}
+                                        </Typography>
                                     </Link>
                                 </CardContent>
                             </Card>
@@ -189,14 +199,21 @@ export default function Recipes() {
                                     alt={recipe.name}
                                 />
                                 <CardContent>
-                                    <Typography
-                                        variant="h5"
-                                        style={{ fontFamily: 'Comfortaa' }}
+                                    <Link
+                                        href={`/recipes/${recipe._id}`}
+                                        passHref
+                                        style={{ textDecoration: 'none' }}
                                     >
-                                        {recipe.name}
-                                    </Typography>
-                                    <Link href={`/recipes/${recipe._id}`}>
-                                        View Recipe
+                                        <Typography
+                                            variant="h5"
+                                            style={{
+                                                color: '#341900',
+                                                textDecoration: 'none',
+                                                cursor: 'pointer',
+                                            }}
+                                        >
+                                            {recipe.name}
+                                        </Typography>
                                     </Link>
                                 </CardContent>
                             </Card>
