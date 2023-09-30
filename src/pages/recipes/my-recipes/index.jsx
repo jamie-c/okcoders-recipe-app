@@ -68,7 +68,7 @@ export default function Recipes() {
     }, [createdRecipes, likedRecipes])
 
     return (
-    <Box
+        <Box
             p={2}
             pt={0}
             display="flex"
@@ -78,42 +78,38 @@ export default function Recipes() {
             minHeight="100vh"
             position="relative"
         >
-            <Stack direction="row" gap={1} alignItems="center" my={8}>
-                
-            <ToggleButton
-                value="check"
-                selected={createdSelected}
-                onChange={() => {
-                    setCreatedSelected(!createdSelected);
-                    setDisplayedRecipes('created');
-                }}
-                >
-                    <CheckIcon /> Show Created Recipes
-            </ToggleButton>
-                
-            <ToggleButton
-                value="check"
-                selected={likedSelected}
-                onChange={() => {
-                    setLikedSelected(!likedSelected);
-                    setDisplayedRecipes('liked');
-                }}
-                >
-                    <CheckIcon /> Show Liked Recipes
-            </ToggleButton>
-            </Stack>
             <Typography
                 variant="h3"
-                gutterBottom
                 style={{
-                    fontFamily: 'Comfortaa',
                     fontWeight: 'bold', // Add this line to make the text bold
-                    marginTop: '50px', // Adjust the value for the desired space
-                    marginBottom: '20px', // Adjust the value for the desired space
                 }}
             >
                 My Recipes
             </Typography>
+            <Stack direction="row" gap={1} alignItems="center" my={8}>
+                <ToggleButton
+                    value="check"
+                    selected={createdSelected}
+                    onChange={() => {
+                        setCreatedSelected(!createdSelected);
+                        setDisplayedRecipes('created');
+                    }}
+                >
+                    <CheckIcon /> Show Created Recipes
+                </ToggleButton>
+
+                <ToggleButton
+                    value="check"
+                    selected={likedSelected}
+                    onChange={() => {
+                        setLikedSelected(!likedSelected);
+                        setDisplayedRecipes('liked');
+                    }}
+                >
+                    <CheckIcon /> Show Liked Recipes
+                </ToggleButton>
+            </Stack>
+
             <Grid container spacing={2}>
                 {loading && (
                     <Typography>Loading...</Typography>
@@ -131,7 +127,11 @@ export default function Recipes() {
                                 <CardContent>
                                     <Typography
                                         variant="h5"
-                                        style={{ fontFamily: 'Comfortaa' }}
+                                        style={{
+                                            color: '#006400',
+                                            textDecoration: 'none',
+                                            cursor: 'pointer',
+                                        }}
                                     >
                                         {recipe.name}
                                     </Typography>
@@ -168,7 +168,7 @@ export default function Recipes() {
                         </Grid>
                     ))
                 )}
-                {displayedRecipes === 'liked' && 
+                {displayedRecipes === 'liked' &&
                     likedRecipes.map((recipe) => (
                         <Grid item xs={12} sm={4} key={recipe._id}>
                             <Card style={{ height: '100%' }}>
@@ -195,5 +195,5 @@ export default function Recipes() {
                 }
             </Grid>
         </Box>
-            )
+    )
 }

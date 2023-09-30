@@ -51,8 +51,8 @@ export default function Recipes() {
                                             variant="h5"
                                             style={{
                                                 color: '#006400',
-                                                textDecoration: 'none', // Remove underlines
-                                                cursor: 'pointer', // Show pointer cursor on hover
+                                                textDecoration: 'none',
+                                                cursor: 'pointer',
                                             }}
                                         >
                                             {recipe.name}
