@@ -32,7 +32,7 @@ function NavigationDrawer({ open, onClose }) {
                         </Link>
                     </ListItem>
                     <ListItem Button onClick={onClose}>
-                        <Link href="/">
+                        <Link href="/recipes/my-recipes">
                             <Button>
                                 <ListItemText
                                     primary={
@@ -58,7 +58,7 @@ function NavigationDrawer({ open, onClose }) {
                         </Link>
                     </ListItem>
                     <ListItem Button onClick={onClose}>
-                        <Link href="/recipe-index">
+                        <Link href="/recipes">
                             <Button>
                                 <ListItemText
                                     primary={
@@ -71,8 +71,8 @@ function NavigationDrawer({ open, onClose }) {
                         </Link>
                     </ListItem>
                     <ListItem Button onClick={onClose}>
-                        <Link href="/">
-                            <Button>
+                        <Link href="/" disabled>
+                            <Button disabled>
                                 <ListItemText
                                     primary={
                                         <Typography style={styles.listItemText}>
@@ -84,8 +84,8 @@ function NavigationDrawer({ open, onClose }) {
                         </Link>
                     </ListItem>
                     <ListItem Button onClick={onClose}>
-                        <Link href="/">
-                            <Button>
+                        <Link href="/" disabled>
+                            <Button disabled>
                                 <ListItemText
                                     primary={
                                         <Typography style={styles.listItemText}>
