@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MenuIcon from '@mui/icons-material/Menu';
 import { UserButton } from '@clerk/nextjs';
 import NavigationDrawer from './NavigationDrawer';
 import Link from 'next/link';
@@ -43,7 +43,7 @@ export default function Header() {
                             sx={{ mr: 2 }}
                             onClick={toggleDrawer}
                         >
-                            <MenuBookIcon sx={{ fontSize: '2.5rem', color: '#006400' }} />
+                            <MenuIcon sx={{ fontSize: '2.5rem', color: '#006400' }} />
                         </IconButton>
                         <UserButton afterSignOutUrl="/" />
                     </div>
