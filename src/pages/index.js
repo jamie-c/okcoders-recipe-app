@@ -48,11 +48,7 @@ export default function Home() {
                 flexDirection="column"
             >
                 <img src="/cookbookio icon.png" alt="Cookbookio Icon" style={{ width: '60px' }} />
-                <Typography variant='h1'
-                    style={{
-                        fontSize: '70px'
-                    }}
-                >
+                <Typography variant='h1'>
                     cookbook.io
                 </Typography>
             </Box>
