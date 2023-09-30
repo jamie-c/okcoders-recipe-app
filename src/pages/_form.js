@@ -1,5 +1,5 @@
+import '@/styles/form.css'
 import { useState } from 'react'
-import './styles/form.css'
 
 function RecipeForm() {
     const [formData, setFormData] = useState({
