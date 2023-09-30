@@ -32,7 +32,7 @@ export default function Header() {
                 <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     {!isHomePage && (
                         <Typography variant="h2" component="div">
-                            <Link href="/" style={{ textDecoration: 'none', color: theme.palette.primary.main }}>Cookbook.io</Link>
+                            <Link href="/" style={{ textDecoration: 'none', color: theme.palette.primary.main, fontFamily: 'Young Serif', textTransform: 'uppercase' }}>Cookbook.io</Link>
                         </Typography>
                     )}
                     <div style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto' }}>
