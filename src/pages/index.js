@@ -57,7 +57,7 @@ export default function Home() {
                 style={{
                     marginTop: '50px',
                     display: 'flex',
-                    minWidth: '50%', // Initially set to full width
+                    minWidth: '50%',
                 }}
             >
                 <SearchBar />
@@ -79,8 +79,8 @@ export default function Home() {
                     gutterBottom
                     style={{
                         fontSize: '30px',
-                        fontWeight: 'bold', // Add this line to make the text bold
-                        marginBottom: '20px', // Adjust the value for the desired space
+                        fontWeight: 'bold',
+                        marginBottom: '20px',
                     }}
                 >
                     Featured Recipes
@@ -103,9 +103,9 @@ export default function Home() {
                                             <Typography
                                                 variant="h5"
                                                 style={{
-                                                    color: '#006400',
-                                                    textDecoration: 'none', // Remove underlines
-                                                    cursor: 'pointer', // Show pointer cursor on hover
+                                                    color: '#341900',
+                                                    textDecoration: 'none',
+                                                    cursor: 'pointer',
                                                 }}
                                             >
                                                 {recipe.name}
