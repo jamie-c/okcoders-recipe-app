@@ -5,14 +5,14 @@
 * Recipe App Team To-Do List
 
 ** Front End
-*** IN-PROGRESS Landing Page
+*** DONE Landing Page
     - [x] Display 3 recipes.
     - [x] Add a “Find a Recipe” search field below.
     - [x] Optionally, add a “Feeling Lucky” button.
     - [x] Remove the search bar from the Navbar and place it in the center of the page.
 
 *** TODO Create Index Pages & Routes
-    - [x ] Create a page for a list of recipes sorted alphabetically (url/recipes).
+    - [x] Create a page for a list of recipes sorted alphabetically (url/recipes).
     - [ ] Create a page for a list of ingredients sorted alphabetically (url/ingredients).
 
 *** TODO App Name
@@ -34,7 +34,7 @@
     - [ ] Create a dynamic URL route (ingredients/id) that displays the recipe associated with that ingredient.
 
 *** TODO My Recipes Page
-    - [ ] Create a page where users can toggle between favorited and created recipes.
+    - [x] Create a page where users can toggle between favorited and created recipes.
 
 *** TODO Toggle Component
     - [ ] Create a component for toggling between favorited and created recipes.
@@ -44,16 +44,16 @@
 *** TODO Add Recipes to Database
     - [ ] Add 12 recipes to database.
 
-*** TODO Move Add New Recipe Form to /recipes/add
+*** DONE Move Add New Recipe Form to /recipes/add
     - [x] Move the “Add New Recipe” form to the /recipes/add page.
     - [x] Remove the “Add New Recipe” form from the /recipes page.
 
-*** IN-PROGRESS Associate User IDs with Recipes:
+*** DONE Associate User IDs with Recipes:
     - [x] Add userId to recipe model.
     - [x] Ensure that each recipe in the MongoDB database is associated with a user ID to track which user created the recipe or favorited it. You may need to update the recipe schema to include a field for the user ID.
 
-*** TODO Build ‘Find Recipes by User ID’ Function
-    - [ ] Implement a function in the MongoDB database that allows users to find all their recipes once they are logged in.
+*** DONE Build ‘Find Recipes by User ID’ Function
+    - [x] Implement a function in the MongoDB database that allows users to find all their recipes once they are logged in.
 
 *** DONE Update Search Function
     - [x] Add a new API route called ‘Search.’

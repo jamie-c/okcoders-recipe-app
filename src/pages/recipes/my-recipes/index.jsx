@@ -1,14 +1,19 @@
-import SearchBar from '@/components/SearchBar'
-import { Box, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import SearchBar from '@/components/SearchBar';
+import CheckIcon from '@mui/icons-material/Check';
+import { Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
+import ToggleButton from '@mui/material/ToggleButton';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+
 
 export default function Recipes() {
     const [createdRecipes, setCreatedRecipes] = useState([''])
     const [likedRecipes, setLikedRecipes] = useState([''])
     const [allRecipes, setAllRecipes] = useState([''])
-    const [displayedRecipes, setDisplayedRecipes] = useState('liked')
+    const [displayedRecipes, setDisplayedRecipes] = useState('all')
     const [loading, setLoading] = useState(true)
+    const [createdSelected, setCreatedSelected] = useState(true);
+    const [likedSelected, setLikedSelected] = useState(true);
 
     const fetchCreatedRecipes = async () => {
         setLoading(true)
@@ -30,6 +35,25 @@ export default function Recipes() {
         fetchCreatedRecipes()
         fetchLikedRecipes()
     }, [])
+
+    // if createdSelected is true an likedSelected is true, display all recipes
+    // if createdSelected is true and likedSelected is false, display created recipes
+    // if createdSelected is false and likedSelected is true, display liked recipes
+    // if createdSelected is false and likedSelected is false, display no recipes
+    useEffect(() => {
+        if (createdSelected && likedSelected) {
+            setDisplayedRecipes('all')
+        }
+        if (createdSelected && !likedSelected) {
+            setDisplayedRecipes('created')
+        }
+        if (!createdSelected && likedSelected) {
+            setDisplayedRecipes('liked')
+        }
+        if (!createdSelected && !likedSelected) {
+            setDisplayedRecipes('none')
+        }
+    }, [createdSelected, likedSelected])
 
     useEffect(() => {
         // Combine created and liked recipes, ensuring no duplicates
@@ -55,6 +79,30 @@ export default function Recipes() {
             minHeight="100vh"
             position="relative"
         >
+            <Stack direction="row" gap={1} alignItems="center" my={8}>
+                
+            <ToggleButton
+                value="check"
+                selected={createdSelected}
+                onChange={() => {
+                    setCreatedSelected(!createdSelected);
+                    setDisplayedRecipes('created');
+                }}
+                >
+                    <CheckIcon /> Show Created Recipes
+            </ToggleButton>
+                
+            <ToggleButton
+                value="check"
+                selected={likedSelected}
+                onChange={() => {
+                    setLikedSelected(!likedSelected);
+                    setDisplayedRecipes('liked');
+                }}
+                >
+                    <CheckIcon /> Show Liked Recipes
+            </ToggleButton>
+            </Stack>
             <SearchBar />
             <Typography
                 variant="h3"
