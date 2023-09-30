@@ -1,4 +1,3 @@
-import SearchBar from '@/components/SearchBar'
 import { Box, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -33,7 +32,6 @@ export default function Recipes() {
             minHeight="100vh"
             position="relative"
         >
-            <SearchBar />
             <Typography
                 variant="h3"
                 gutterBottom

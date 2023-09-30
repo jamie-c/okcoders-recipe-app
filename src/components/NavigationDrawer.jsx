@@ -8,6 +8,7 @@ import {
     Typography,
 } from '@mui/material'
 import Link from 'next/link'
+import SearchBar from './SearchBar'
 
 function NavigationDrawer({ open, onClose }) {
     return (
@@ -98,6 +99,7 @@ function NavigationDrawer({ open, onClose }) {
                     </ListItem>
                     {/* Add more navigation links as needed */}
                 </List>
+                <SearchBar />
             </Paper>
         </Drawer>
     )

@@ -1,4 +1,3 @@
-import SearchBar from '@/components/SearchBar';
 import CheckIcon from '@mui/icons-material/Check';
 import { Box, Card, CardContent, CardMedia, Grid, Stack, Typography } from '@mui/material';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -103,7 +102,6 @@ export default function Recipes() {
                     <CheckIcon /> Show Liked Recipes
             </ToggleButton>
             </Stack>
-            <SearchBar />
             <Typography
                 variant="h3"
                 gutterBottom
